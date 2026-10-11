@@ -1,0 +1,2432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grade 5 English Language Proficiency Examination</title>
+  <style>
+    :root {
+      --primary: #0b2545;
+      --primary-dark: #061527;
+      --primary-light: #133c55;
+      --accent: #8b0000;
+      --accent-soft: #fbf2f2;
+      --gold: #b38022;
+      --gold-light: #fef8ee;
+      --bg: #f5f5f3;
+      --surface: #ffffff;
+      --text: #1a1a1a;
+      --text-muted: #4b5563;
+      --border: #cbd5e1;
+      --border-dark: #374151;
+      --success: #166534;
+      --success-light: #dcfce7;
+      --danger: #991b1b;
+      --danger-light: #fee2e2;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Times New Roman', Times, Baskerville, Georgia, serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      font-size: 16px;
+    }
+
+    /* Fixed Sticky Top Navigation Bar */
+    .top-timer-bar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: var(--primary);
+      color: #ffffff;
+      padding: 10px 24px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.22);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 3px solid var(--gold);
+    }
+
+    .timer-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .timer-label {
+      font-size: 13px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #cbd5e1;
+      font-weight: bold;
+    }
+
+    .timer-clock {
+      font-size: 24px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      background: var(--primary-dark);
+      color: #ffffff;
+      padding: 4px 14px;
+      border-radius: 4px;
+      border: 1px solid rgba(255,255,255,0.25);
+      font-family: 'Courier New', Courier, monospace;
+      min-width: 95px;
+      text-align: center;
+    }
+
+    .timer-warning {
+      color: #fbbf24 !important;
+      border-color: #fbbf24 !important;
+      animation: pulse 1.5s infinite;
+    }
+    .timer-danger {
+      color: #f87171 !important;
+      border-color: #f87171 !important;
+      animation: pulse 0.8s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.55; }
+    }
+
+    .progress-bar-container {
+      flex: 1;
+      max-width: 380px;
+      margin: 0 24px;
+    }
+
+    .progress-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      margin-bottom: 4px;
+      color: #cbd5e1;
+    }
+
+    .progress-track {
+      background: rgba(255,255,255,0.2);
+      height: 10px;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      background: var(--gold);
+      height: 100%;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .action-buttons-group {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .nav-toggle-btn {
+      background: transparent;
+      color: #cbd5e1;
+      border: 1px solid rgba(255,255,255,0.3);
+      padding: 7px 14px;
+      font-family: 'Times New Roman', serif;
+      font-size: 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .nav-toggle-btn:hover {
+      background: rgba(255,255,255,0.1);
+      color: #ffffff;
+    }
+
+    .submit-exam-btn {
+      background: var(--accent);
+      color: #ffffff;
+      border: 1px solid rgba(255,255,255,0.4);
+      padding: 8px 20px;
+      font-family: 'Times New Roman', serif;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .submit-exam-btn:hover {
+      background: #a00000;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    /* Main Examination Document Canvas */
+    .exam-wrapper {
+      max-width: 980px;
+      margin: 28px auto 60px auto;
+      background: var(--surface);
+      padding: 50px 65px;
+      box-shadow: 0 4px 25px rgba(0,0,0,0.1);
+      border: 1px solid #d1d5db;
+    }
+
+    /* Formal Academic Header */
+    .academic-header {
+      text-align: center;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 24px;
+      margin-bottom: 28px;
+    }
+
+    .crest-svg {
+      width: 70px;
+      height: 70px;
+      margin-bottom: 12px;
+    }
+
+    .exam-title {
+      font-size: 26px;
+      font-weight: bold;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .exam-subtitle {
+      font-size: 15px;
+      color: var(--text-muted);
+      font-style: italic;
+      margin-bottom: 20px;
+    }
+
+    /* Candidate Credentials Box */
+    .credentials-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      border: 1px solid var(--border);
+    }
+
+    .credentials-table td {
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      font-size: 14.5px;
+    }
+
+    .credentials-table input {
+      width: 94%;
+      border: none;
+      border-bottom: 1px dashed #4b5563;
+      font-family: 'Times New Roman', serif;
+      font-size: 15px;
+      padding: 2px 4px;
+      outline: none;
+      background: transparent;
+    }
+
+    .instruction-box {
+      background: #fafaf8;
+      border-left: 5px solid var(--primary);
+      padding: 16px 22px;
+      margin: 24px 0;
+      font-size: 14.5px;
+      color: #333333;
+      border-top: 1px solid #e5e7eb;
+      border-right: 1px solid #e5e7eb;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .instruction-box strong {
+      color: var(--primary);
+    }
+
+    /* Floating Question Grid Drawer */
+    .question-navigator {
+      display: none;
+      position: fixed;
+      right: 20px;
+      top: 75px;
+      width: 260px;
+      background: #ffffff;
+      border: 2px solid var(--primary);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+      border-radius: 4px;
+      padding: 14px;
+      z-index: 999;
+      max-height: 82vh;
+      overflow-y: auto;
+    }
+
+    .nav-header {
+      font-weight: bold;
+      color: var(--primary);
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 6px;
+    }
+
+    .nav-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 6px;
+    }
+
+    .nav-cell {
+      border: 1px solid #cbd5e1;
+      padding: 5px 0;
+      text-align: center;
+      font-size: 12.5px;
+      cursor: pointer;
+      background: #f8fafc;
+      transition: all 0.15s;
+      border-radius: 2px;
+      font-family: 'Times New Roman', serif;
+    }
+    .nav-cell:hover {
+      background: #e2e8f0;
+    }
+    .nav-cell.answered {
+      background: #dbeafe;
+      border-color: var(--primary);
+      font-weight: bold;
+      color: var(--primary);
+    }
+
+    /* Section Banner Styling */
+    .section-banner {
+      background: #f0f4f8;
+      border-left: 6px solid var(--primary);
+      border-bottom: 1px solid #d0dbe5;
+      padding: 14px 20px;
+      margin: 40px 0 24px 0;
+    }
+
+    .section-title {
+      font-size: 21px;
+      color: var(--primary);
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .section-desc {
+      font-size: 14.5px;
+      color: var(--text-muted);
+      font-style: italic;
+      margin-top: 3px;
+    }
+
+    /* Question Card */
+    .question-card {
+      margin-bottom: 30px;
+      padding-bottom: 24px;
+      border-bottom: 1px dashed #d1d5db;
+      position: relative;
+    }
+
+    .q-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 10px;
+    }
+
+    .q-number-title {
+      font-size: 16.5px;
+      font-weight: bold;
+      color: var(--primary);
+    }
+
+    .q-badges {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .q-stem {
+      font-size: 16px;
+      margin-bottom: 14px;
+      line-height: 1.6;
+    }
+
+    /* Visual Stimuli Graphic Components */
+    .stimulus-box {
+      margin: 16px 0 20px 0;
+    }
+
+    /* Framed Notice */
+    .notice-frame {
+      border: 2px solid #2d3748;
+      background: #fffdf7;
+      padding: 18px 24px;
+      border-radius: 2px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.06);
+    }
+    .notice-header-tag {
+      font-size: 13.5px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #742a2a;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 4px;
+      margin-bottom: 8px;
+    }
+
+    /* Smartphone Chat UI */
+    .phone-mockup {
+      background: #ece5dd;
+      border: 2px solid #94a3b8;
+      border-radius: 8px;
+      padding: 16px;
+      max-width: 480px;
+      font-family: Arial, sans-serif;
+      font-size: 13.5px;
+    }
+    .chat-bubble {
+      padding: 8px 12px;
+      border-radius: 7px;
+      margin-bottom: 10px;
+      max-width: 85%;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.12);
+    }
+    .chat-in {
+      background: #ffffff;
+      margin-right: auto;
+    }
+    .chat-out {
+      background: #dcf8c6;
+      margin-left: auto;
+    }
+    .chat-sender {
+      font-size: 11px;
+      font-weight: bold;
+      color: #075e54;
+      margin-bottom: 2px;
+    }
+
+    /* Postcard Graphic */
+    .postcard-container {
+      background: #fdfbf7;
+      border: 1px solid #d4c5b9;
+      padding: 20px;
+      display: flex;
+      gap: 20px;
+      border-radius: 2px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .postcard-message {
+      flex: 2;
+      font-style: italic;
+      border-right: 1px dashed #d4c5b9;
+      padding-right: 16px;
+      font-size: 15px;
+    }
+    .postcard-meta {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+    .stamp-box {
+      width: 55px;
+      height: 68px;
+      border: 2px dashed #9c4221;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      color: #9c4221;
+      font-weight: bold;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    /* Interactive Museum Console Diagram */
+    .console-panel {
+      background: #1e293b;
+      color: #f8fafc;
+      padding: 18px 24px;
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      border: 2px solid #0f172a;
+    }
+    .console-item {
+      text-align: center;
+      font-size: 13px;
+    }
+    .console-btn-green {
+      width: 44px;
+      height: 44px;
+      background: #22c55e;
+      border-radius: 50%;
+      margin: 0 auto 6px auto;
+      box-shadow: 0 0 10px rgba(34,197,94,0.6);
+      border: 2px solid #ffffff;
+    }
+    .console-dial {
+      width: 44px;
+      height: 44px;
+      background: #64748b;
+      border-radius: 50%;
+      margin: 0 auto 6px auto;
+      border: 3px dashed #ffffff;
+    }
+    .console-alarm {
+      width: 44px;
+      height: 44px;
+      background: #ef4444;
+      border-radius: 50%;
+      margin: 0 auto 6px auto;
+      border: 2px solid #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    /* Email Graphic */
+    .email-frame {
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .email-top {
+      background: #f1f5f9;
+      padding: 10px 16px;
+      border-bottom: 1px solid #e2e8f0;
+      font-size: 13.5px;
+    }
+    .email-body {
+      padding: 16px 20px;
+      font-size: 15px;
+    }
+
+    /* Sticky Note */
+    .sticky-note {
+      background: #fef08a;
+      border-left: 6px solid #eab308;
+      padding: 16px 20px;
+      font-family: 'Times New Roman', serif;
+      font-size: 15px;
+      box-shadow: 2px 3px 8px rgba(0,0,0,0.08);
+      max-width: 520px;
+    }
+
+    /* Diagram Styles */
+    .diagram-panel {
+      background: #fafbfc;
+      border: 1px solid #e2e8f0;
+      padding: 16px;
+      border-radius: 4px;
+      margin: 14px 0 18px 0;
+      text-align: center;
+    }
+    .diagram-caption {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-style: italic;
+      margin-top: 6px;
+    }
+
+    /* Informational Tables */
+    .info-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+      font-size: 14px;
+    }
+    .info-table th, .info-table td {
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      text-align: left;
+    }
+    .info-table th {
+      background: var(--primary);
+      color: #ffffff;
+      font-weight: bold;
+    }
+    .info-table tr:nth-child(even) {
+      background: #f8fafc;
+    }
+
+    /* Section 5 Error Identification Sentence Strips */
+    .error-id-strip {
+      background: #f8fafc;
+      border-left: 4px solid var(--primary);
+      border-top: 1px solid #e2e8f0;
+      border-right: 1px solid #e2e8f0;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 16px 20px;
+      margin: 12px 0 16px 0;
+      font-size: 16px;
+      line-height: 2.2;
+    }
+    .underlined-token {
+      border-bottom: 2px solid #b91c1c;
+      background-color: #fef2f2;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-weight: bold;
+      color: #991b1b;
+      display: inline-block;
+      margin: 0 2px;
+    }
+    .underlined-token .token-badge {
+      font-size: 12px;
+      background: #b91c1c;
+      color: #ffffff;
+      padding: 1px 5px;
+      border-radius: 3px;
+      margin-left: 4px;
+      vertical-align: middle;
+    }
+
+    /* Options Format */
+    .options-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .option-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px 14px;
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      cursor: pointer;
+      background: #ffffff;
+      transition: all 0.15s;
+    }
+    .option-row:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+    }
+    .option-row.selected {
+      background: #eff6ff;
+      border-color: var(--primary);
+    }
+    .option-row input[type="radio"] {
+      margin-top: 4px;
+      cursor: pointer;
+    }
+    .opt-letter {
+      font-weight: bold;
+      color: var(--primary);
+      min-width: 22px;
+    }
+    .opt-text {
+      font-size: 15.5px;
+    }
+
+    /* Section 7 Open Fill Input */
+    .open-fill-box {
+      margin: 14px 0 8px 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .open-fill-input {
+      border: none;
+      border-bottom: 2px solid var(--primary);
+      font-family: 'Times New Roman', serif;
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--primary);
+      padding: 4px 10px;
+      width: 220px;
+      background: #fefce8;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .open-fill-input:focus {
+      border-bottom-color: var(--accent);
+      background: #ffffff;
+    }
+
+    /* Passage Text Block */
+    .passage-block {
+      background: #fafaf8;
+      border-left: 4px solid var(--primary-light);
+      padding: 20px 24px;
+      margin: 16px 0 24px 0;
+      font-size: 15.5px;
+      line-height: 1.7;
+      text-align: justify;
+    }
+    .passage-block h4 {
+      color: var(--primary);
+      font-size: 18.5px;
+      margin-bottom: 10px;
+    }
+
+    /* Bottom Final Submit Panel */
+    .bottom-submit-panel {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 30px;
+      border-top: 2px solid var(--primary);
+    }
+
+    /* Modal Overlay for Grading Report */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(11, 37, 69, 0.8);
+      z-index: 2000;
+      overflow-y: auto;
+      padding: 40px 20px;
+    }
+
+    .modal-content {
+      max-width: 960px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 45px 55px;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.3);
+      position: relative;
+    }
+
+    .close-modal-x {
+      position: absolute;
+      top: 20px;
+      right: 25px;
+      font-size: 32px;
+      font-weight: bold;
+      color: #64748b;
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+    .close-modal-x:hover { color: #000; }
+
+    /* Results Dashboard Elements */
+    .report-title {
+      font-size: 24px;
+      font-weight: bold;
+      color: var(--primary);
+      text-align: center;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+    .report-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .summary-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin: 24px 0;
+    }
+    .kpi-card {
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      padding: 16px;
+      text-align: center;
+      border-radius: 4px;
+    }
+    .kpi-num {
+      font-size: 30px;
+      font-weight: bold;
+      color: var(--primary);
+    }
+    .kpi-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .report-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0;
+    }
+    .report-table th, .report-table td {
+      border: 1px solid var(--border);
+      padding: 9px 12px;
+      font-size: 14px;
+      text-align: left;
+    }
+    .report-table th {
+      background: var(--primary);
+      color: #ffffff;
+      font-weight: bold;
+    }
+    .report-table tr:nth-child(even) { background: #f8fafc; }
+
+    .analysis-section {
+      margin: 28px 0;
+    }
+    .analysis-heading {
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--primary);
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 6px;
+      margin-bottom: 14px;
+    }
+
+    .section-audit-card {
+      border: 1px solid #e2e8f0;
+      background: #fafaf9;
+      border-radius: 4px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+      border-left: 5px solid var(--primary);
+    }
+    .section-audit-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+    }
+    .section-audit-title {
+      font-size: 16px;
+      font-weight: bold;
+      color: var(--primary);
+    }
+    .section-audit-score {
+      font-size: 14px;
+      font-weight: bold;
+      color: #1e40af;
+    }
+
+    .download-docx-banner {
+      background: #f0f7ff;
+      border: 2px solid #1d4ed8;
+      border-radius: 6px;
+      padding: 22px;
+      text-align: center;
+      margin: 28px 0;
+    }
+
+    .btn-download-docx {
+      background: #1d4ed8;
+      color: #ffffff;
+      border: none;
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: 'Times New Roman', serif;
+      box-shadow: 0 4px 10px rgba(29, 78, 216, 0.3);
+      transition: background 0.2s;
+    }
+    .btn-download-docx:hover { background: #1e40af; }
+
+    @media print {
+      .top-timer-bar, .modal-overlay, .submit-exam-btn, .nav-toggle-btn { display: none !important; }
+      body { background: #ffffff; }
+      .exam-wrapper { box-shadow: none; border: none; padding: 0; max-width: 100%; margin: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Exam Controller Bar -->
+  <div class="top-timer-bar">
+    <div class="timer-container">
+      <span class="timer-label">&#9201; Time Left:</span>
+      <div id="timerDisplay" class="timer-clock">60:00</div>
+    </div>
+
+    <div class="progress-bar-container">
+      <div class="progress-labels">
+        <span>Completion Progress</span>
+        <span id="progressSummary">0 / 50 Answered (0%)</span>
+      </div>
+      <div class="progress-track">
+        <div id="progressBar" class="progress-fill"></div>
+      </div>
+    </div>
+
+    <div class="action-buttons-group">
+      <button type="button" class="nav-toggle-btn" onclick="toggleNav()">&#9776; Question Grid</button>
+      <button type="button" class="submit-exam-btn" onclick="handleSubmitClicked()">&#10003; Submit &amp; Download Report</button>
+    </div>
+  </div>
+
+  <!-- Floating Question Grid Drawer -->
+  <div id="questionNav" class="question-navigator">
+    <div class="nav-header">
+      <span>Question Navigation</span>
+      <span style="cursor:pointer;" onclick="toggleNav()">&#10005;</span>
+    </div>
+    <div class="nav-grid" id="navGridContainer"></div>
+  </div>
+
+  <!-- Main Question Paper Container -->
+  <div class="exam-wrapper">
+
+    <!-- Academic Header -->
+    <div class="academic-header">
+      <svg class="crest-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50 5 L88 20 V50 C88 74 50 94 50 94 C50 94 12 74 12 50 V20 L50 5 Z" fill="#0B2545" stroke="#B38022" stroke-width="3"/>
+        <path d="M50 18 L76 29 V50 C76 67 50 82 50 82 C50 82 24 67 24 50 V29 L50 18 Z" fill="#133C55"/>
+        <path d="M50 28 L53 36 L61 36 L54 41 L57 49 L50 44 L43 49 L46 41 L39 36 L47 36 Z" fill="#B38022"/>
+        <path d="M35 55 Q50 63 65 55 Q50 72 35 55 Z" fill="#FFFFFF"/>
+        <line x1="50" y1="56" x2="50" y2="70" stroke="#0B2545" stroke-width="2"/>
+      </svg>
+      <h1 class="exam-title">Grade 5 English Proficiency Diagnostic Assessment</h1>
+      <p class="exam-subtitle">Curriculum Alignment: British Council LearnEnglish Kids • CEFR Level A2–B1 • Higher-Order Thinking Skills • 50 Questions</p>
+
+      <table class="credentials-table">
+        <tr>
+          <td style="width: 55%;"><strong>Candidate Name:</strong> <input type="text" id="candidateName" value="Student Candidate"></td>
+          <td style="width: 45%;"><strong>Candidate ID / Roll No:</strong> <input type="text" id="candidateId" value="BC-G5-2026-081"></td>
+        </tr>
+        <tr>
+          <td><strong>School / Examination Centre:</strong> <input type="text" id="examCenter" value="International Academy"></td>
+          <td><strong>Examination Date:</strong> <input type="text" id="examDate" value="11 October 2026"></td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Instructions -->
+    <div class="instruction-box">
+      <strong>EXAMINATION INSTRUCTIONS &amp; PROCEDURES:</strong>
+      <ol style="margin-top: 6px; padding-left: 20px;">
+        <li>This diagnostic test contains <strong>50 questions</strong> divided across <strong>seven sections</strong>. Total time allocated: <strong>60 minutes</strong>.</li>
+        <li>For Sections 1–6, select the single best option (A, B, C, or D). For Section 7, write exactly one suitable word in each blank.</li>
+        <li>You may navigate, review, and change your answers freely using the Question Grid.</li>
+        <li>You can submit your examination at <strong>ANY TIME during the 60 minutes</strong> by clicking the <strong>Submit &amp; Download Report</strong> button.</li>
+        <li>Upon submission, an extensive, personalized <strong>Word Document (.docx) Grading Report</strong> will immediately download automatically with section-by-section strengths, weaknesses, and item-by-item pedagogical rationale.</li>
+      </ol>
+    </div>
+
+    <!-- DYNAMIC EXAM FORM CONTAINER -->
+    <form id="examForm" onsubmit="event.preventDefault();">
+      <div id="questionsContainer">
+        <!-- Rendered by JavaScript with authentic visual stimuli, diagrams, and options -->
+      </div>
+
+      <!-- Bottom Final Submit Panel -->
+      <div class="bottom-submit-panel">
+        <p style="font-style:italic; color:var(--text-muted); margin-bottom:16px;">
+          Review your answers carefully. You may submit your paper at any time during the 60 minutes.
+        </p>
+        <button type="button" class="submit-exam-btn" style="padding:14px 34px; font-size:18px;" onclick="handleSubmitClicked()">
+          &#10003; Final Examination Submission &amp; Download Grading Report
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Grading Report Modal & Dashboard -->
+  <div id="resultsModal" class="modal-overlay">
+    <div class="modal-content">
+      <button class="close-modal-x" onclick="closeResultsModal()">&times;</button>
+
+      <div style="text-align:center; margin-bottom: 20px;">
+        <svg class="crest-svg" viewBox="0 0 100 100" fill="none">
+          <path d="M50 5 L88 20 V50 C88 74 50 94 50 94 C50 94 12 74 12 50 V20 L50 5 Z" fill="#0B2545" stroke="#B38022" stroke-width="3"/>
+          <path d="M50 18 L76 29 V50 C76 67 50 82 50 82 C50 82 24 67 24 50 V29 L50 18 Z" fill="#133C55"/>
+          <path d="M50 28 L53 36 L61 36 L54 41 L57 49 L50 44 L43 49 L46 41 L39 36 L47 36 Z" fill="#B38022"/>
+        </svg>
+        <h2 class="report-title">Official Diagnostic Grading &amp; Performance Report</h2>
+        <p class="report-subtitle">British Council LearnEnglish Kids Curriculum Standards • Grade 5 Primary Assessment</p>
+      </div>
+
+      <!-- Download Button Banner -->
+      <div class="download-docx-banner">
+        <h3 style="color:#1e3a8a; margin-bottom:6px;">&#128196; Downloadable Word Document (.docx) Generated!</h3>
+        <p style="color:#2563eb; font-size:14px; margin-bottom:14px;">Your comprehensive question-by-question grading report with section-by-section strengths, weaknesses, and improvement plan has been compiled into Microsoft Word format.</p>
+        <button type="button" class="btn-download-docx" onclick="downloadDocxReport()">
+          &#11015; Download Word Grading Report (.docx)
+        </button>
+      </div>
+
+      <!-- Summary KPI Grid -->
+      <div class="summary-kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-num" id="kpiScore">0 / 50</div>
+          <div class="kpi-label">Total Score</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-num" id="kpiPercentage">0%</div>
+          <div class="kpi-label">Percentage</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-num" id="kpiCefr">A2</div>
+          <div class="kpi-label">CEFR Placement</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-num" id="kpiTimeUsed">0m 0s</div>
+          <div class="kpi-label">Time Elapsed</div>
+        </div>
+      </div>
+
+      <!-- Section Summary Table -->
+      <div class="analysis-section">
+        <h3 class="analysis-heading">1. Section-by-Section Performance Audit</h3>
+        <table class="report-table" id="sectionReportTable">
+          <thead>
+            <tr>
+              <th>Section Name</th>
+              <th>Items</th>
+              <th>Score</th>
+              <th>Accuracy</th>
+              <th>Proficiency Rating</th>
+            </tr>
+          </thead>
+          <tbody id="sectionReportTbody"></tbody>
+        </table>
+      </div>
+
+      <!-- Detailed Section-by-Section Qualitative & Item-Wise Breakdown -->
+      <div class="analysis-section">
+        <h3 class="analysis-heading">2. Detailed Section-by-Section Strengths, Weaknesses, Areas for Improvement &amp; Item Analysis</h3>
+        <div id="sectionDetailedAuditContainer"></div>
+      </div>
+
+      <!-- Cognitive & KSA Domain Breakdown -->
+      <div class="analysis-section">
+        <h3 class="analysis-heading">3. Bloom's Taxonomy &amp; K-S-A Cognitive Distribution</h3>
+        <table class="report-table" id="bloomReportTable">
+          <thead>
+            <tr>
+              <th>Cognitive Domain (Bloom's)</th>
+              <th>K-S-A Classification</th>
+              <th>Items</th>
+              <th>Score</th>
+              <th>Mastery Level</th>
+            </tr>
+          </thead>
+          <tbody id="bloomReportTbody"></tbody>
+        </table>
+      </div>
+
+      <!-- Detailed Item-by-Item Review -->
+      <div class="analysis-section">
+        <h3 class="analysis-heading">4. Detailed Question-by-Question Itemized Audit (Q1–Q50)</h3>
+        <table class="report-table" style="font-size:13px;" id="itemizedAuditTable">
+          <thead>
+            <tr>
+              <th style="width:6%;">Q#</th>
+              <th style="width:24%;">Domain &amp; Topic</th>
+              <th style="width:12%;">Your Answer</th>
+              <th style="width:12%;">Key</th>
+              <th style="width:10%;">Result</th>
+              <th style="width:36%;">Pedagogical Rationale</th>
+            </tr>
+          </thead>
+          <tbody id="itemizedAuditTbody"></tbody>
+        </table>
+      </div>
+
+      <div style="text-align:center; margin-top:24px;">
+        <button type="button" class="btn-download-docx" onclick="downloadDocxReport()">
+          &#11015; Download Word Grading Report (.docx)
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+<script>
+// ========================================================
+// GRADE 5 ENGLISH ASSESSMENT - COMPREHENSIVE QUESTION BANK
+// ========================================================
+const sectionsMeta = [
+  { id: "s1", name: "Section 1: Short Messages & Notices", range: "Q1–Q7", total: 7, desc: "Examine each authentic short notice, text message, or letter to infer meaning and apply stated rules." },
+  { id: "s2", name: "Section 2: Grammar & Structure", range: "Q8–Q15", total: 8, desc: "Select the option that best completes each sentence according to standard English grammatical rules." },
+  { id: "s3", name: "Section 3: Vocabulary & Use of English", range: "Q16–Q23", total: 8, desc: "Choose the most accurate word, phrase, collocation, or idiom to complete each context." },
+  { id: "s4", name: "Section 4: Reading Comprehension", range: "Q24–Q31", total: 8, desc: "Read the expository passages and examine the scientific diagrams carefully before answering." },
+  { id: "s5", name: "Section 5: Error Identification", range: "Q32–Q38", total: 7, desc: "Identify the single underlined part [A], [B], [C], or [D] that contains a grammatical or structural error." },
+  { id: "s6", name: "Section 6: Cloze Test", range: "Q39–Q45", total: 7, desc: "Read the continuous text about honeybees and select the single best option for each numbered blank." },
+  { id: "s7", name: "Section 7: Open Gap-Fill", range: "Q46–Q50", total: 5, desc: "Complete each sentence by writing EXACTLY ONE suitable English word in the blank space." }
+];
+
+const questions = [
+  // SECTION 1 (Q1-Q7)
+  {
+    id: 1, secId: "s1", secTitle: "Section 1: Short Messages & Notices", topic: "Library Drop-box Policy",
+    stem: "What must students do if they have books due on Wednesday?",
+    options: ["Keep the books until Friday without penalty.", "Leave the books in the drop-box near reception.", "Hand the books directly to the installation workers.", "Renew the books online using the digital whiteboard."],
+    correct: "B", bloom: "Analyzing", ksa: "Skills (Comprehension & Rules)",
+    stimulus: `<div class="stimulus-box"><div class="notice-frame"><div class="notice-header-tag">&#128218; Library Renovation Notice</div><p>"Library Renovation Notice: The junior reading room will be closed from Monday to Thursday for digital whiteboard installation. Students may return borrowed books at the drop-box near the reception desk. Regular borrowing resumes Friday morning."</p></div></div>`,
+    rationale: "The notice explicitly states that while the junior reading room is closed Monday to Thursday, students may return borrowed books at the drop-box near the reception desk."
+  },
+  {
+    id: 2, secId: "s1", secTitle: "Section 1: Short Messages & Notices", topic: "Eco-Club Text Exchange",
+    stem: "Why is the eco-club poster currently incomplete?",
+    options: ["Liam forgot to take pictures of the compost bin.", "Chloe has not yet transferred her photos to Liam.", "Mr. Harrison rejected the first draft of the slides.", "The school printer ran out of color ink."],
+    correct: "B", bloom: "Analyzing", ksa: "Skills (Contextual Inference)",
+    stimulus: `<div class="stimulus-box"><div class="phone-mockup"><div class="chat-bubble chat-in"><div class="chat-sender">Liam</div>Hi Chloe! Mr. Harrison said our eco-club poster is almost ready, but we still need photos of the school compost bin.</div><div class="chat-bubble chat-out"><div class="chat-sender">Chloe</div>I took five pictures during break, but my battery died before I could email them. I'll send them right after dinner.</div><div class="chat-bubble chat-in"><div class="chat-sender">Liam</div>Great! I'll paste them onto the slide so we can print the poster tomorrow morning.</div></div></div>`,
+    rationale: "Chloe's battery died before she could email the photos; because she has not yet transferred them to Liam, he cannot paste them into the poster slides."
+  },
+  {
+    id: 3, secId: "s1", secTitle: "Section 1: Short Messages & Notices", topic: "Science Lab Safety Rule",
+    stem: "Which action complies strictly with the laboratory rule?",
+    options: ["Moving a pot to the cafeteria window sill if it looks cold.", "Keeping all experimental seedlings inside the greenhouse.", "Asking a classmate for verbal permission to take a pot home.", "Placing seedlings under classroom lights overnight."],
+    correct: "B", bloom: "Applying", ksa: "Skills (Rule Application)",
+    stimulus: `<div class="stimulus-box"><div class="notice-frame" style="border-color:#0284c7; background:#f0f9ff;"><div class="notice-header-tag" style="color:#0369a1;">&#9888; Safety Rule for Plant Growth Experiment</div><p>"All seedlings must remain in the greenhouse under natural sunlight. Do not transfer pots to window sills in classrooms without written approval from Dr. Bennett."</p></div></div>`,
+    rationale: "The rule states seedlings must remain in the greenhouse under natural sunlight unless written approval is granted by Dr. Bennett."
+  },
+  {
+    id: 4, secId: "s1", secTitle: "Section 1: Short Messages & Notices", topic: "Wildlife Camp Postcard",
+    stem: "What is the writer's primary attitude toward the forest hike?",
+    options: ["Frustrated by the early morning wake-up call.", "Anxious about encountering wild woodland animals.", "Deeply appreciative of observing nature firsthand.", "Disappointed that digital recordings were not allowed."],
+    correct: "C", bloom: "Evaluating", ksa: "Attitudes (Writer's Purpose & Values)",
+    stimulus: `<div class="stimulus-box"><div class="postcard-container"><div class="postcard-message">"Dear Grandma, Yesterday we hiked into the pine forest at dawn. At first, all we heard was running water, but our guide taught us to listen for woodpeckers tapping on dead bark. When we spotted a red deer near the stream, nobody made a sound! It was much more rewarding than watching nature clips on a screen."</div><div class="postcard-meta"><div class="stamp-box">UK POST<br>CAMP<br>&#9733; 2026 &#9733;</div></div></div></div>`,
+    rationale: "The writer concludes that observing the red deer firsthand was 'much more rewarding than watching nature clips on a screen', expressing deep appreciation."
+  },
+  {
+    id: 5, secId: "s1", secTitle: "Section 1: Short Messages & Notices", topic: "Interactive Museum Console",
+    stem: "What should a visitor do the moment the alarm sounds?",
+    options: ["Turn the dial faster in the opposite direction.", "Press the green button repeatedly until the alarm stops.", "Let go of the dial right away and alert a staff member.", "Unplug the water wheel power cable from the wall."],
+    correct: "C", bloom: "Analyzing", ksa: "Skills (Textual Synthesis)",
+    stimulus: `<div class="stimulus-box"><div class="console-panel"><div class="console-item"><div class="console-btn-green"></div><span>Green Button<br>(Simulate Light)</span></div><div class="console-item"><div class="console-dial"></div><span>Flow Dial<br>(Turn Clockwise)</span></div><div class="console-item"><div class="console-alarm">!</div><span>Warning Siren<br>(Release &amp; Alert Staff)</span></div></div></div>`,
+    rationale: "The label explicitly instructs: 'If the warning alarm sounds, release the dial immediately and notify museum staff.'"
+  },
+  {
+    id: 6, secId: "s1", secTitle: "Section 1: Short Messages & Notices", topic: "Botanical Garden Field Trip Plan",
+    stem: "Which change has been made to the original trip plan?",
+    options: ["The destination has been moved from the garden to a museum.", "The garden tour will occur earlier in the day than scheduled.", "Children must bring heavy winter coats and umbrellas.", "Packed lunches will be eaten outside on the garden lawn."],
+    correct: "B", bloom: "Evaluating", ksa: "Skills (Practical Evaluation)",
+    stimulus: `<div class="stimulus-box"><div class="email-frame"><div class="email-top"><strong>From:</strong> c.davies@oakridgeschool.edu.uk &bull; <strong>To:</strong> year5parents@oakridge.org<br><strong>Subject:</strong> Botanical Garden Tour Schedule Update</div><div class="email-body">"Dear Year 5 Parents, Due to rain forecast for Wednesday afternoon, our botanical garden tour will take place in the morning instead. We will eat lunch inside the glass conservatory. Please ensure children wear waterproof footwear, as trails between pavilions remain muddy."</div></div></div>`,
+    rationale: "Mrs. Davies clarifies that because of the afternoon rain forecast, the tour will take place in the morning instead (earlier in the day)."
+  },
+  {
+    id: 7, secId: "s1", secTitle: "Section 1: Short Messages & Notices", topic: "Pet Care Sequence & Responsibility",
+    stem: "What is Sam expected to do before opening the garden door for Buster?",
+    options: ["Take Buster for a thirty-minute walk.", "Buy fresh kibble from the grocery shop.", "Feed Buster his meal.", "Unlock the garden gate for his mother."],
+    correct: "C", bloom: "Analyzing", ksa: "Skills (Sequence & Responsibility)",
+    stimulus: `<div class="stimulus-box"><div class="sticky-note">&#128204; "Sam, please remember to feed Buster his dry kibble before letting him into the back garden. Check that the garden gate is latched tight so he doesn't slip through. I'll walk him after I return from the grocery store. &mdash; Mum"</div></div>`,
+    rationale: "Mum explicitly instructs Sam to 'remember to feed Buster his dry kibble before letting him into the back garden.'"
+  },
+
+  // SECTION 2 (Q8-Q15)
+  {
+    id: 8, secId: "s2", secTitle: "Section 2: Grammar & Structure", topic: "Past Continuous & Interrupted Action",
+    stem: "While the pupils _______ native wildflowers in the school garden, the headmaster arrived with new watering cans.",
+    options: ["planted", "were planting", "have planted", "are planting"],
+    correct: "B", bloom: "Applying", ksa: "Skills (Grammar Conventions)",
+    stimulus: `<div class="diagram-panel"><svg width="480" height="70" viewBox="0 0 480 70" fill="none"><line x1="20" y1="35" x2="460" y2="35" stroke="#64748B" stroke-width="2"/><rect x="70" y="20" width="180" height="30" fill="#E2E8F0" stroke="#0B2545" stroke-dasharray="4 2"/><text x="160" y="40" font-family="'Times New Roman', serif" font-size="13" text-anchor="middle" fill="#0B2545">Continuous Action: Planting Wildflowers</text><circle cx="210" cy="35" r="6" fill="#8B0000"/><text x="210" y="15" font-family="'Times New Roman', serif" font-size="12" font-weight="bold" text-anchor="middle" fill="#8B0000">Interruption (Headmaster Arrived)</text></svg><div class="diagram-caption">Figure 2.1: Interrupted Past Action Timeline</div></div>`,
+    rationale: "'Were planting' (Past Continuous) frames the ongoing background activity interrupted by the punctual event 'arrived' (Past Simple)."
+  },
+  {
+    id: 9, secId: "s2", secTitle: "Section 2: Grammar & Structure", topic: "Modals of Obligation",
+    stem: "You _______ wash your hands thoroughly before handling food in the cooking workshop; it is a strict hygiene regulation.",
+    options: ["might", "must", "would", "could"],
+    correct: "B", bloom: "Applying", ksa: "Skills (Modals of Obligation)",
+    stimulus: `<div class="stimulus-box"><table class="info-table"><thead><tr><th>Modal Verb</th><th>Modal Function</th><th>Example Context</th></tr></thead><tbody><tr><td><strong>Must</strong></td><td>Mandatory Obligation / Strict Regulation</td><td>Students <em>must</em> wear safety goggles in the lab.</td></tr><tr><td><strong>Might / Could</strong></td><td>Possibility / Optional Permission</td><td>You <em>might</em> see foxes at dusk.</td></tr></tbody></table></div>`,
+    rationale: "'Must' signals mandatory regulation and strict obligation, required by hygiene regulations."
+  },
+  {
+    id: 10, secId: "s2", secTitle: "Section 2: Grammar & Structure", topic: "Comparative Adjectives",
+    stem: "Protecting coastal mangroves is _______ than building concrete seawalls because mangroves also provide safe nursery grounds for fish.",
+    options: ["effective", "more effective", "most effective", "as effective"],
+    correct: "B", bloom: "Analyzing", ksa: "Knowledge & Skills (Adjective Comparison)",
+    stimulus: `<div class="stimulus-box"><table class="info-table"><thead><tr><th>Coastal Defense Structure</th><th>Storm Buffer Rating</th><th>Ecological Nursery Function</th></tr></thead><tbody><tr><td>Coastal Mangrove Forests</td><td>High (Dynamic Root Mesh)</td><td>Protects 80+ Species of Fish Fry</td></tr><tr><td>Concrete Seawalls</td><td>Moderate (Static Barrier)</td><td>Zero Biological Habitat Value</td></tr></tbody></table></div>`,
+    rationale: "The comparison particle 'than' grammatically requires the comparative form 'more effective'."
+  },
+  {
+    id: 11, secId: "s2", secTitle: "Section 2: Grammar & Structure", topic: "First Conditional Form",
+    stem: "If families _______ recycling organic food waste, municipal landfills will become completely full within five years.",
+    options: ["don't start", "won't start", "haven't started", "didn't start"],
+    correct: "A", bloom: "Applying", ksa: "Skills (Conditional Syntax)",
+    stimulus: `<div class="diagram-panel"><svg width="450" height="60" viewBox="0 0 450 60" fill="none"><rect x="20" y="15" width="160" height="30" rx="3" fill="#E0F2FE" stroke="#0284C7"/><text x="100" y="35" font-family="'Times New Roman', serif" font-size="12" font-weight="bold" text-anchor="middle" fill="#0369A1">IF + Present Simple</text><path d="M190 30 L230 30" stroke="#0284C7" stroke-width="2"/><rect x="240" y="15" width="180" height="30" rx="3" fill="#FEF3C7" stroke="#D97706"/><text x="330" y="35" font-family="'Times New Roman', serif" font-size="12" font-weight="bold" text-anchor="middle" fill="#B45309">WILL + Base Verb</text></svg><div class="diagram-caption">Figure 2.2: First Conditional Real Clause Architecture</div></div>`,
+    rationale: "In first conditional real conditions, the if-clause uses the Present Simple negative ('don't start') while the main clause uses 'will become'."
+  },
+  {
+    id: 12, secId: "s2", secTitle: "Section 2: Grammar & Structure", topic: "Relative Pronouns (Possessive)",
+    stem: "The marine biologist _______ research paper won the national award gave an inspiring lecture on blue whales.",
+    options: ["which", "who", "whose", "whom"],
+    correct: "C", bloom: "Analyzing", ksa: "Skills (Relative Pronouns)",
+    rationale: "'Whose' is the possessive relative pronoun modifying 'research paper' and referring back to the marine biologist."
+  },
+  {
+    id: 13, secId: "s2", secTitle: "Section 2: Grammar & Structure", topic: "Quantifiers with Uncountable Nouns",
+    stem: "Although there was only _______ time remaining before the bell rang, the group managed to summarize their main findings.",
+    options: ["a few", "a little", "many", "several"],
+    correct: "B", bloom: "Analyzing", ksa: "Skills (Quantifiers & Mass Nouns)",
+    stimulus: `<div class="stimulus-box"><table class="info-table"><thead><tr><th>Noun Classification</th><th>Compatible Quantifiers</th><th>Example In Sentence</th></tr></thead><tbody><tr><td><strong>Uncountable (Mass Noun)</strong></td><td>a little, much, a bit of</td><td>There was only <em>a little</em> time left.</td></tr><tr><td><strong>Countable Plural</strong></td><td>a few, many, several</td><td>There were only <em>a few</em> minutes left.</td></tr></tbody></table></div>`,
+    rationale: "'Time' is an uncountable noun here; 'a little' denotes a small positive amount, whereas 'a few', 'many', and 'several' modify countable plural nouns."
+  },
+  {
+    id: 14, secId: "s2", secTitle: "Section 2: Grammar & Structure", topic: "Present Perfect with Time Anchor",
+    stem: "Our robotic club _______ three different prototypes since the term started in September.",
+    options: ["built", "has built", "builds", "is building"],
+    correct: "B", bloom: "Applying", ksa: "Skills (Aspectual Consistency)",
+    rationale: "'Since' anchors an action starting in the past and continuing up to the present moment, requiring the Present Perfect ('has built')."
+  },
+  {
+    id: 15, secId: "s2", secTitle: "Section 2: Grammar & Structure", topic: "Subordinating Conjunctions of Concession",
+    stem: "_______ the mountain ascent was steep and exhausting, every scout reached the summit before midday.",
+    options: ["Because", "In spite of", "Although", "Therefore"],
+    correct: "C", bloom: "Analyzing", ksa: "Skills (Concessive Connectors)",
+    rationale: "'Although' introduces a subordinate clause containing both subject and verb. ('In spite of' requires a noun phrase or gerund)."
+  },
+
+  // SECTION 3 (Q16-Q23)
+  {
+    id: 16, secId: "s3", secTitle: "Section 3: Vocabulary & Use of English", topic: "Domain Vocabulary (Ecology)",
+    stem: "Polar bears rely heavily on thick sea ice as their natural _______ to hunt seals and raise their cubs.",
+    options: ["boundary", "habitat", "exhibition", "climate"],
+    correct: "B", bloom: "Understanding", ksa: "Knowledge (Ecological Terms)",
+    rationale: "'Habitat' specifically denotes the natural home or environment of an animal species."
+  },
+  {
+    id: 17, secId: "s3", secTitle: "Section 3: Vocabulary & Use of English", topic: "Verb-Noun Collocations",
+    stem: "After weighing the arguments for and against solar panels, the school council finally _______ a decision to install them.",
+    options: ["made", "did", "gave", "took"],
+    correct: "A", bloom: "Applying", ksa: "Skills (Collocations)",
+    stimulus: `<div class="stimulus-box"><table class="info-table"><thead><tr><th>Standard Collocation</th><th>Non-standard / Incorrect Pairing</th></tr></thead><tbody><tr><td><strong>make a decision</strong></td><td>do a decision / give a decision</td></tr><tr><td><strong>make a mistake</strong></td><td>do a mistake</td></tr><tr><td><strong>do homework / research</strong></td><td>make homework</td></tr></tbody></table></div>`,
+    rationale: "In standard English collocation, one 'makes a decision' (past tense: made a decision)."
+  },
+  {
+    id: 18, secId: "s3", secTitle: "Section 3: Vocabulary & Use of English", topic: "Phrasal Verbs (Resource Depletion)",
+    stem: "When the astronauts began their extravehicular mission, they were careful not to _______ oxygen during the spacewalk.",
+    options: ["run out of", "give up on", "put up with", "look forward to"],
+    correct: "A", bloom: "Analyzing", ksa: "Skills (Phrasal Verbs)",
+    rationale: "'Run out of' means to exhaust or deplete a finite supply of a resource."
+  },
+  {
+    id: 19, secId: "s3", secTitle: "Section 3: Vocabulary & Use of English", topic: "Contextual Synonyms",
+    stem: "Regular watering and adequate sunlight are vital for the survival of indoor ferns. Which word is closest in meaning to vital?",
+    options: ["optional", "essential", "artificial", "convenient"],
+    correct: "B", bloom: "Analyzing", ksa: "Knowledge (Synonyms in Context)",
+    rationale: "'Essential' is an exact synonym for 'vital', both meaning absolutely necessary or indispensable."
+  },
+  {
+    id: 20, secId: "s3", secTitle: "Section 3: Vocabulary & Use of English", topic: "Morphological Word Formation",
+    stem: "Adding the prefix un- to the adjective predictable changes the meaning to:",
+    options: ["easily predicted in advance", "not able to be foreseen or predicted", "the person who predicts an event", "happening repeatedly over time"],
+    correct: "B", bloom: "Applying", ksa: "Knowledge & Skills (Prefixes)",
+    stimulus: `<div class="diagram-panel"><svg width="420" height="50" viewBox="0 0 420 50" fill="none"><rect x="20" y="10" width="70" height="30" rx="3" fill="#FEE2E2" stroke="#B91C1C"/><text x="55" y="30" font-family="'Times New Roman', serif" font-size="13" font-weight="bold" text-anchor="middle" fill="#991B1B">un- [Not]</text><text x="110" y="30" font-family="'Times New Roman', serif" font-size="16" font-weight="bold" fill="#0B2545">+</text><rect x="130" y="10" width="120" height="30" rx="3" fill="#E2E8F0" stroke="#0B2545"/><text x="190" y="30" font-family="'Times New Roman', serif" font-size="13" font-weight="bold" text-anchor="middle" fill="#0B2545">predictable</text><text x="270" y="30" font-family="'Times New Roman', serif" font-size="16" font-weight="bold" fill="#0B2545">=</text><rect x="290" y="10" width="115" height="30" rx="3" fill="#FEF3C7" stroke="#D97706"/><text x="347" y="30" font-family="'Times New Roman', serif" font-size="13" font-weight="bold" text-anchor="middle" fill="#B45309">unpredictable</text></svg><div class="diagram-caption">Figure 3.1: Negation Prefix Morphology</div></div>`,
+    rationale: "The prefix 'un-' expresses negation, altering 'predictable' to 'not able to be foreseen or predicted'."
+  },
+  {
+    id: 21, secId: "s3", secTitle: "Section 3: Vocabulary & Use of English", topic: "Idiomatic Language",
+    stem: "Emma studied diligently for her spelling bee, so when the final round started, she found the words to be a piece of cake. What does this idiom mean?",
+    options: ["Sweet and enjoyable to eat", "Extremely easy to accomplish", "Confusing and hard to memorize", "Requiring teamwork and sharing"],
+    correct: "B", bloom: "Analyzing", ksa: "Skills (Idioms)",
+    rationale: "'A piece of cake' is a common idiom meaning something that is very simple or effortless to do."
+  },
+  {
+    id: 22, secId: "s3", secTitle: "Section 3: Vocabulary & Use of English", topic: "Contextual Adjective Contrast",
+    stem: "Unlike the dry, lifeless desert plains nearby, the river valley was filled with _______ vegetation and singing birds.",
+    options: ["barren", "lush", "scarce", "fragile"],
+    correct: "B", bloom: "Evaluating", ksa: "Skills (Semantic Contrast)",
+    rationale: "'Lush' means growing luxuriantly, directly contrasting with 'dry, lifeless'."
+  },
+  {
+    id: 23, secId: "s3", secTitle: "Section 3: Vocabulary & Use of English", topic: "Prepositional Phrases",
+    stem: "Mrs. Higgins was appointed to be _______ the school's annual environmental awareness fair.",
+    options: ["in charge of", "in spite of", "in terms of", "in place of"],
+    correct: "A", bloom: "Applying", ksa: "Skills (Prepositional Phrases)",
+    rationale: "'In charge of' is the standard prepositional idiom meaning holding supervisory responsibility."
+  },
+
+  // SECTION 4 (Q24-Q31)
+  {
+    id: 24, secId: "s4", secTitle: "Section 4: Reading Comprehension", topic: "Passage 1: Retrieval & Cause",
+    stem: "What inspired the pupils at Oakridge Primary to initiate the rooftop garden?",
+    options: ["A request from the school cafeteria chef for free vegetables.", "An article in an environmental magazine regarding city biodiversity.", "A directive from the school district to replace concrete roofs.", "An architectural competition offering prizes for green roofs."],
+    correct: "B", bloom: "Understanding", ksa: "Knowledge (Factual Retrieval)",
+    stimulus: `<div class="passage-block"><h4>Passage 1: The Rooftop Garden Project</h4><p>At Oakridge Primary School, an empty grey concrete rooftop was transformed into a vibrant green oasis by fifty dedicated pupils. Inspired by an environmental magazine article about urban biodiversity, the Year 5 class proposed building raised garden beds to grow heritage vegetables and pollinator-friendly flowers. At first, some staff members worried that the rooftop would be too windy and that soil boxes would add excessive weight to the building.</p><p>To overcome these concerns, the pupils collaborated with an architectural engineer who volunteered her expertise. She showed them how to use lightweight cedar wood and composite organic soil made from recycled coconut coir. The children also constructed low woven-willow windbreaks along the perimeter to shield young seedlings from sudden gusts. Within three months, bumblebees, ladybirds, and goldfinches returned to the rooftop, and the cafeteria began serving crisp lettuce harvested directly by the children.</p></div><div class="diagram-panel"><svg width="500" height="120" viewBox="0 0 500 120" fill="none"><rect x="30" y="90" width="440" height="15" fill="#94A3B8"/><text x="250" y="102" font-family="'Times New Roman', serif" font-size="11" fill="#FFFFFF" text-anchor="middle">School Concrete Roof Slab</text><rect x="60" y="55" width="100" height="35" fill="#B45309" stroke="#78350F"/><rect x="70" y="58" width="80" height="12" fill="#451A03"/><text x="110" y="78" font-family="'Times New Roman', serif" font-size="10" fill="#FEF3C7" text-anchor="middle">Cedar Planter</text><path d="M110 55 Q100 40 90 45 Q110 30 110 55 Q120 35 130 45 Z" fill="#16A34A"/><rect x="200" y="45" width="12" height="45" fill="#CA8A04" stroke="#854D0E" stroke-dasharray="3 2"/><text x="206" y="38" font-family="'Times New Roman', serif" font-size="10" fill="#854D0E" text-anchor="middle">Willow Windbreak</text><circle cx="420" cy="35" r="16" fill="#F59E0B"/><path d="M360 45 Q365 40 370 45 Q375 40 380 45" stroke="#0B2545" stroke-width="2" fill="none"/><text x="370" y="60" font-family="'Times New Roman', serif" font-size="10" fill="#0B2545" text-anchor="middle">Goldfinches</text></svg><div class="diagram-caption">Figure 4.1: Oakridge Primary Rooftop Garden Architectural Cross-Section</div></div>`,
+    rationale: "The passage explicitly begins: 'Inspired by an environmental magazine article about urban biodiversity, the Year 5 class proposed building raised garden beds...'"
+  },
+  {
+    id: 25, secId: "s4", secTitle: "Section 4: Reading Comprehension", topic: "Passage 1: Synthesizing Details",
+    stem: "How did the students resolve the concern about excessive weight on the roof?",
+    options: ["By planting tall fruit trees directly into the concrete floor.", "By using lightweight cedar containers and coconut coir soil.", "By inviting fifty volunteers to carry heavy soil boxes down every night.", "By removing all flowers and keeping only flat plastic turf."],
+    correct: "B", bloom: "Analyzing", ksa: "Skills (Synthesizing Details)",
+    rationale: "Paragraph 2 states the engineer showed them 'how to use lightweight cedar wood and composite organic soil made from recycled coconut coir'."
+  },
+  {
+    id: 26, secId: "s4", secTitle: "Section 4: Reading Comprehension", topic: "Passage 1: Functional Analysis",
+    stem: "What was the primary function of the woven-willow fences built along the roof edge?",
+    options: ["To prevent goldfinches from nesting near the garden.", "To decorate the rooftop for an open-house exhibition.", "To protect delicate young seedlings from strong wind gusts.", "To collect rainwater for the garden irrigation system."],
+    correct: "C", bloom: "Analyzing", ksa: "Skills (Functional Analysis)",
+    rationale: "The text explains the pupils constructed woven-willow windbreaks 'to shield young seedlings from sudden gusts'."
+  },
+  {
+    id: 27, secId: "s4", secTitle: "Section 4: Reading Comprehension", topic: "Passage 1: Thematic Evaluation",
+    stem: "Which statement best reflects the overarching message of the passage?",
+    options: ["Urban wildlife cannot survive without artificial heating systems.", "Thoughtful planning and teamwork can transform unused urban spaces into ecological habitats.", "School cafeterias should only serve food grown on school grounds.", "Rooftop projects are too dangerous for young students without adult labor."],
+    correct: "B", bloom: "Evaluating", ksa: "Attitudes (Thematic Evaluation)",
+    rationale: "The narrative emphasizes how pupil initiative, expert planning, and collaborative teamwork turned a barren concrete roof into a thriving ecosystem."
+  },
+  {
+    id: 28, secId: "s4", secTitle: "Section 4: Reading Comprehension", topic: "Passage 2: Cause & Effect Reasoning",
+    stem: "Why was Maya motivated to create a solar purifier rather than continuing to boil water?",
+    options: ["Her school forbade students from drinking boiled river water.", "Firewood was scarce and smoke caused health discomfort for her family.", "The river water tasted sweeter when left under the sun.", "Metal pots were unavailable in her local community."],
+    correct: "B", bloom: "Analyzing", ksa: "Skills (Cause & Effect Reasoning)",
+    stimulus: `<div class="passage-block"><h4>Passage 2: Maya's Solar Water Purifier</h4><p>Eleven-year-old Maya lived near a rural river where water was often cloudy with silt and harmful bacteria after heavy monsoon rains. Boiling water consumed precious firewood, creating smoke that irritated her grandmother's eyes. Determined to discover a cleaner alternative, Maya recalled a science lesson on evaporation and solar energy. She decided to design an inexpensive solar water purifier using recycled materials.</p><p>Her prototype consisted of two nested plastic containers: a large clear outer tub and a smaller blackened metal dish placed inside. Unfiltered river water was poured into the base of the outer tub. When exposed to bright sunlight, the black dish absorbed heat rapidly, warming the surrounding water. As pure water evaporated, it rose as vapor and condensed against the transparent, angled plastic lid. The clear droplets trickled down into a central collection cup, leaving behind dirt, salt, and microorganisms. Testing showed that Maya's device removed 99% of impurities without using a single stick of firewood.</p></div><div class="diagram-panel"><svg width="480" height="120" viewBox="0 0 480 120" fill="none"><rect x="50" y="30" width="380" height="75" rx="5" fill="#F8FAFC" stroke="#0284C7" stroke-width="2"/><text x="80" y="48" font-family="'Times New Roman', serif" font-size="11" fill="#0369A1">Clear Outer Tub</text><line x1="45" y1="20" x2="240" y2="35" stroke="#38BDF8" stroke-width="3"/><line x1="435" y1="20" x2="240" y2="35" stroke="#38BDF8" stroke-width="3"/><text x="240" y="16" font-family="'Times New Roman', serif" font-size="11" fill="#0284C7" text-anchor="middle">Angled Condenser Lid (Droplets Trickle Down)</text><rect x="90" y="70" width="120" height="25" fill="#1E293B"/><text x="150" y="86" font-family="'Times New Roman', serif" font-size="10" fill="#FFFFFF" text-anchor="middle">Blackened Metal Dish</text><rect x="220" y="55" width="40" height="40" fill="#E0F2FE" stroke="#0284C7"/><text x="240" y="78" font-family="'Times New Roman', serif" font-size="9" fill="#0369A1" text-anchor="middle">Pure Water Cup</text><path d="M120 5 L140 25" stroke="#EAB308" stroke-width="2" stroke-dasharray="2 2"/><path d="M150 2 L160 25" stroke="#EAB308" stroke-width="2" stroke-dasharray="2 2"/></svg><div class="diagram-caption">Figure 4.2: Maya's Solar Thermal Evaporation Purifier Schematic</div></div>`,
+    rationale: "Paragraph 1 notes that boiling water consumed precious firewood and the smoke irritated her grandmother's eyes, prompting her to find a cleaner alternative."
+  },
+  {
+    id: 29, secId: "s4", secTitle: "Section 4: Reading Comprehension", topic: "Passage 2: Scientific Explanation",
+    stem: "What scientific process causes pure water droplets to form on the angled plastic lid?",
+    options: ["Filtration through coconut fibers", "Chemical neutralization by sunlight", "Evaporation followed by condensation", "Freezing and melting of river moisture"],
+    correct: "C", bloom: "Analyzing", ksa: "Knowledge & Skills (Scientific Reasoning)",
+    rationale: "Sunlight evaporates the water into vapor, which then condenses upon hitting the cooler transparent plastic lid."
+  },
+  {
+    id: 30, secId: "s4", secTitle: "Section 4: Reading Comprehension", topic: "Passage 2: Technical Deduction",
+    stem: "Why was the inner metal dish painted black in Maya's invention?",
+    options: ["To make the container look cleaner after multiple uses.", "To maximize the absorption of thermal energy from sunlight.", "To prevent dirt and silt from sticking to the container base.", "To reflect excess light away from the collection cup."],
+    correct: "B", bloom: "Evaluating", ksa: "Skills (Technical Deduction)",
+    rationale: "Black surfaces absorb solar thermal energy rapidly, heating the water efficiently to accelerate evaporation."
+  },
+  {
+    id: 31, secId: "s4", secTitle: "Section 4: Reading Comprehension", topic: "Passage 2: Character Evaluation",
+    stem: "Which quality best describes Maya's approach to solving her community's water problem?",
+    options: ["Impulsive and reckless", "Resourceful and scientifically minded", "Dependent on expensive technology", "Indifferent to environmental consequences"],
+    correct: "B", bloom: "Evaluating", ksa: "Attitudes (Character Evaluation)",
+    rationale: "Maya drew upon school science principles, utilized affordable recycled materials, and methodically tested her prototype."
+  },
+
+  // SECTION 5 (Q32-Q38)
+  {
+    id: 32, secId: "s5", secTitle: "Section 5: Error Identification", topic: "Subject-Verb Agreement (Collective Noun)",
+    stem: "Identify the incorrect underlined portion in the sentence below:",
+    options: ["were flying", "when", "coated", "branches"],
+    correct: "A", bloom: "Analyzing", ksa: "Skills (Subject-Verb Agreement)",
+    stimulus: `<div class="error-id-strip">The flock of wild geese <span class="underlined-token">were flying<span class="token-badge">[A]</span></span> southward across the lake <span class="underlined-token">when<span class="token-badge">[B]</span></span> the first frost <span class="underlined-token">coated<span class="token-badge">[C]</span></span> the tree <span class="underlined-token">branches<span class="token-badge">[D]</span></span>.</div>`,
+    rationale: "'Flock' is a singular collective noun; therefore, standard concord requires the singular verb 'was flying'."
+  },
+  {
+    id: 33, secId: "s5", secTitle: "Section 5: Error Identification", topic: "Tense Consistency in Narrative",
+    stem: "Identify the incorrect underlined portion in the sentence below:",
+    options: ["explained", "demonstrates", "with", "filings"],
+    correct: "B", bloom: "Analyzing", ksa: "Skills (Tense Consistency)",
+    stimulus: `<div class="error-id-strip">Yesterday afternoon, the science teacher <span class="underlined-token">explained<span class="token-badge">[A]</span></span> how magnets work and <span class="underlined-token">demonstrates<span class="token-badge">[B]</span></span> polarity <span class="underlined-token">with<span class="token-badge">[C]</span></span> several iron <span class="underlined-token">filings<span class="token-badge">[D]</span></span>.</div>`,
+    rationale: "The past temporal context ('Yesterday afternoon') and initial verb ('explained') require consistent past tense: 'demonstrated'."
+  },
+  {
+    id: 34, secId: "s5", secTitle: "Section 5: Error Identification", topic: "Dependent Prepositions",
+    stem: "Identify the incorrect underlined portion in the sentence below:",
+    options: ["at", "nervous", "about", "on"],
+    correct: "A", bloom: "Analyzing", ksa: "Skills (Dependent Prepositions)",
+    stimulus: `<div class="error-id-strip">The young violinist is extremely gifted <span class="underlined-token">at<span class="token-badge">[A]</span></span> playing classical pieces, but she is still <span class="underlined-token">nervous<span class="token-badge">[B]</span></span> <span class="underlined-token">about<span class="token-badge">[C]</span></span> performing <span class="underlined-token">on<span class="token-badge">[D]</span></span> stage.</div>`,
+    rationale: "The adjective 'gifted' collocates with 'in' (gifted in playing classical pieces); 'good at' or 'talented at' take 'at'."
+  },
+  {
+    id: 35, secId: "s5", secTitle: "Section 5: Error Identification", topic: "Comparative Redundancy",
+    stem: "Identify the incorrect underlined portion in the sentence below:",
+    options: ["much", "more quieter", "located", "station"],
+    correct: "B", bloom: "Analyzing", ksa: "Skills (Comparative Syntax)",
+    stimulus: `<div class="error-id-strip">The new community library is <span class="underlined-token">much<span class="token-badge">[A]</span></span> <span class="underlined-token">more quieter<span class="token-badge">[B]</span></span> than the crowded civic hall <span class="underlined-token">located<span class="token-badge">[C]</span></span> near the train <span class="underlined-token">station<span class="token-badge">[D]</span></span>.</div>`,
+    rationale: "'Quieter' is already an inflected comparative; adding 'more' creates an ungrammatical double comparative redundancy ('much quieter')."
+  },
+  {
+    id: 36, secId: "s5", secTitle: "Section 5: Error Identification", topic: "Parallel Verb Structure",
+    stem: "Identify the incorrect underlined portion in the sentence below:",
+    options: ["pitch", "purifying", "navigate", "orienteering"],
+    correct: "B", bloom: "Analyzing", ksa: "Skills (Parallel Structure)",
+    stimulus: `<div class="error-id-strip">During the camping trip, the scouts learned how to <span class="underlined-token">pitch<span class="token-badge">[A]</span></span> a tent, <span class="underlined-token">purifying<span class="token-badge">[B]</span></span> spring water, and <span class="underlined-token">navigate<span class="token-badge">[C]</span></span> using an <span class="underlined-token">orienteering<span class="token-badge">[D]</span></span> compass.</div>`,
+    rationale: "The infinitive series governed by 'how to' requires base forms: 'to pitch... [purify]... and navigate'. 'Purifying' breaks parallelism."
+  },
+  {
+    id: 37, secId: "s5", secTitle: "Section 5: Error Identification", topic: "Pronoun-Antecedent Concord",
+    stem: "Identify the incorrect underlined portion in the sentence below:",
+    options: ["their", "noon", "they", "an official"],
+    correct: "A", bloom: "Analyzing", ksa: "Skills (Pronoun Concord)",
+    stimulus: `<div class="error-id-strip">Every student in the competition must submit <span class="underlined-token">their<span class="token-badge">[A]</span></span> robot before <span class="underlined-token">noon<span class="token-badge">[B]</span></span> if <span class="underlined-token">they<span class="token-badge">[C]</span></span> wish to receive <span class="underlined-token">an official<span class="token-badge">[D]</span></span> score.</div>`,
+    rationale: "In standard formal examination grammar, the singular distributive quantifier 'Every student' traditionally requires singular 'his or her'."
+  },
+  {
+    id: 38, secId: "s5", secTitle: "Section 5: Error Identification", topic: "Irregular Past Participle",
+    stem: "Identify the incorrect underlined portion in the sentence below:",
+    options: ["fell", "landed", "breaking", "pieces"],
+    correct: "A", bloom: "Analyzing", ksa: "Skills (Irregular Verb Forms)",
+    stimulus: `<div class="error-id-strip">The ancient stone vase had <span class="underlined-token">fell<span class="token-badge">[A]</span></span> from the shelf, but luckily it <span class="underlined-token">landed<span class="token-badge">[B]</span></span> on a soft rug without <span class="underlined-token">breaking<span class="token-badge">[C]</span></span> into <span class="underlined-token">pieces<span class="token-badge">[D]</span></span>.</div>`,
+    rationale: "Past perfect 'had' requires the past participle 'fallen', not the simple past form 'fell'."
+  },
+
+  // SECTION 6 (Q39-Q45)
+  {
+    id: 39, secId: "s6", secTitle: "Section 6: Cloze Test", topic: "Lexical Choice in Informational Text",
+    stem: "Honeybees play a (39) _______ role in global agriculture because they pollinate nearly one-third of crops.",
+    options: ["minor", "vital", "casual", "cautious"],
+    correct: "B", bloom: "Analyzing", ksa: "Knowledge & Skills (Lexical Precision)",
+    stimulus: `<div class="passage-block"><h4>The Vital Role of Honeybees</h4><p>Honeybees are among the most industrious insects on our planet. They play a <strong>(39)</strong> [_______] role in global agriculture because they pollinate nearly one-third of the crops consumed by humans. When bees travel between flowers gathering nectar, pollen grains cling to their fuzzy bodies, transferring from plant to plant. <strong>(40)</strong> [_______], without bee pollination, many fruits, nuts, and vegetables would fail to reproduce.</p><p>Inside the hive, bees live in an intricate community. They are capable of <strong>(41)</strong> [_______] complex directions to one another through an elaborate routine called the 'waggle dance'. Worker bees are responsible <strong>(42)</strong> [_______] maintaining the hive structure, nursing larvae, and defending the colony. Each hive contains a single queen bee, <strong>(43)</strong> [_______] primary duty is laying up to two thousand eggs daily. Sadly, bee colonies worldwide currently face severe <strong>(44)</strong> [_______] from pesticide overuse and habitat fragmentation. Scientists agree that protecting bee populations will require <strong>(45)</strong> [_______] farmer and gardener to plant diverse, chemical-free flowers.</p></div><div class="diagram-panel"><svg width="480" height="90" viewBox="0 0 480 90" fill="none"><rect x="30" y="15" width="120" height="60" rx="6" fill="#FEF3C7" stroke="#D97706"/><text x="90" y="40" font-family="'Times New Roman', serif" font-size="12" font-weight="bold" text-anchor="middle" fill="#B45309">Forager Bee</text><text x="90" y="58" font-family="'Times New Roman', serif" font-size="11" text-anchor="middle" fill="#78350F">Nectar &amp; Pollen</text><path d="M160 45 L200 45" stroke="#D97706" stroke-width="2"/><text x="180" y="38" font-family="'Times New Roman', serif" font-size="10" fill="#B45309" text-anchor="middle">Transfers</text><rect x="210" y="15" width="110" height="60" rx="6" fill="#DCFCE7" stroke="#16A34A"/><text x="265" y="40" font-family="'Times New Roman', serif" font-size="12" font-weight="bold" text-anchor="middle" fill="#15803D">Crop Flowers</text><text x="265" y="58" font-family="'Times New Roman', serif" font-size="11" text-anchor="middle" fill="#166534">Fertilization</text><path d="M330 45 L370 45" stroke="#16A34A" stroke-width="2"/><text x="350" y="38" font-family="'Times New Roman', serif" font-size="10" fill="#15803D" text-anchor="middle">Yields</text><rect x="380" y="15" width="80" height="60" rx="6" fill="#EFF6FF" stroke="#2563EB"/><text x="420" y="40" font-family="'Times New Roman', serif" font-size="12" font-weight="bold" text-anchor="middle" fill="#1D4ED8">Human</text><text x="420" y="58" font-family="'Times New Roman', serif" font-size="11" text-anchor="middle" fill="#1E40AF">Food Supply</text></svg><div class="diagram-caption">Figure 6.1: Honeybee Agricultural Pollination Cycle</div></div>`,
+    rationale: "'Vital' accurately expresses the crucial, indispensable agricultural importance of honeybees."
+  },
+  {
+    id: 40, secId: "s6", secTitle: "Section 6: Cloze Test", topic: "Discourse Cohesion / Transitions",
+    stem: "Pollen grains cling to their bodies. (40) _______, without bee pollination, many fruits, nuts, and vegetables would fail to reproduce.",
+    options: ["In fact", "Nevertheless", "Although", "However"],
+    correct: "A", bloom: "Analyzing", ksa: "Skills (Discourse Transitions)",
+    rationale: "'In fact' introduces an emphatic corroborating consequence supporting the importance of pollination."
+  },
+  {
+    id: 41, secId: "s6", secTitle: "Section 6: Cloze Test", topic: "Prepositional Complements (Gerund)",
+    stem: "They are capable of (41) _______ complex directions to one another through an elaborate routine called the 'waggle dance'.",
+    options: ["communicate", "communicated", "communicating", "communication"],
+    correct: "C", bloom: "Applying", ksa: "Skills (Gerunds after Prepositions)",
+    rationale: "The adjective construction 'capable of' contains a preposition ('of') which requires a gerund ('communicating')."
+  },
+  {
+    id: 42, secId: "s6", secTitle: "Section 6: Cloze Test", topic: "Dependent Prepositions",
+    stem: "Worker bees are responsible (42) _______ maintaining the hive structure, nursing larvae, and defending the colony.",
+    options: ["with", "for", "on", "to"],
+    correct: "B", bloom: "Applying", ksa: "Skills (Dependent Prepositions)",
+    rationale: "The adjective 'responsible' takes the dependent preposition 'for' ('responsible for')."
+  },
+  {
+    id: 43, secId: "s6", secTitle: "Section 6: Cloze Test", topic: "Possessive Relative Pronouns",
+    stem: "Each hive contains a single queen bee, (43) _______ primary duty is laying up to two thousand eggs daily.",
+    options: ["which", "who", "whose", "that"],
+    correct: "C", bloom: "Analyzing", ksa: "Skills (Possessive Relatives)",
+    rationale: "'Whose' indicates possessive relationship between the queen bee and her 'primary duty'."
+  },
+  {
+    id: 44, secId: "s6", secTitle: "Section 6: Cloze Test", topic: "Contextual Noun Collocation",
+    stem: "Sadly, bee colonies worldwide currently face severe (44) _______ from pesticide overuse and habitat fragmentation.",
+    options: ["threats", "praises", "benefits", "rewards"],
+    correct: "A", bloom: "Analyzing", ksa: "Skills (Contextual Nouns)",
+    rationale: "Harmful factors such as pesticide overuse and habitat loss constitute 'threats' to bee survival."
+  },
+  {
+    id: 45, secId: "s6", secTitle: "Section 6: Cloze Test", topic: "Quantifiers & Singular Concord",
+    stem: "Scientists agree that protecting bee populations will require (45) _______ farmer and gardener to plant diverse, chemical-free flowers.",
+    options: ["every", "all", "many", "several"],
+    correct: "A", bloom: "Applying", ksa: "Skills (Quantifiers & Concord)",
+    rationale: "'Every' correctly takes singular concord with 'farmer and gardener'. ('All', 'many', and 'several' take plural nouns)."
+  },
+
+  // SECTION 7 (Q46-Q50)
+  {
+    id: 46, secId: "s7", secTitle: "Section 7: Open Gap-Fill", topic: "Temporal Connectors",
+    stem: "Jessica has been practicing the cello every single afternoon _______ she joined the youth symphony orchestra last October.",
+    options: [], correct: "since", acceptable: ["since"],
+    bloom: "Applying", ksa: "Skills (Temporal Connectors)",
+    rationale: "'Since' denotes the starting temporal anchor point of an action extending up to the present moment."
+  },
+  {
+    id: 47, secId: "s7", secTitle: "Section 7: Open Gap-Fill", topic: "Verb-Preposition Collocation",
+    stem: "After conducting three trials, the young inventors finally succeeded _______ building a functional solar oven.",
+    options: [], correct: "in", acceptable: ["in"],
+    bloom: "Applying", ksa: "Skills (Verb-Preposition Bonds)",
+    rationale: "'Succeeded in' is the mandatory prepositional bond when followed by a gerund ('succeeded in building')."
+  },
+  {
+    id: 48, secId: "s7", secTitle: "Section 7: Open Gap-Fill", topic: "Concessive Conjunctions",
+    stem: "The class decided to proceed with the nature trail exploration even _______ dark rain clouds gathered on the horizon.",
+    options: [], correct: "though", acceptable: ["though", "if"],
+    bloom: "Analyzing", ksa: "Skills (Concessive Clauses)",
+    rationale: "'Even though' (or 'even if') introduces a concession describing an action taken despite unfavorable conditions."
+  },
+  {
+    id: 49, secId: "s7", secTitle: "Section 7: Open Gap-Fill", topic: "Correlative Conjunctions",
+    stem: "Neither Oliver _______ his sister had ever observed a solar eclipse before yesterday's science event.",
+    options: [], correct: "nor", acceptable: ["nor"],
+    bloom: "Applying", ksa: "Knowledge & Skills (Correlative Pairs)",
+    rationale: "'Neither ... nor' operates as the standard negative correlative conjunction pair in English."
+  },
+  {
+    id: 50, secId: "s7", secTitle: "Section 7: Open Gap-Fill", topic: "Phrasal Verb Particles",
+    stem: "Before exiting the computer lab, please make sure you switch _______ all monitor screens and workstation lamps.",
+    options: [], correct: "off", acceptable: ["off"],
+    bloom: "Applying", ksa: "Skills (Phrasal Verb Particles)",
+    rationale: "'Switch off' is the standard phrasal verb meaning to disconnect or shut down electrical equipment."
+  }
+];
+
+// ==========================================
+// STATE & RUNTIME CONTROLLER
+// ==========================================
+let userAnswers = {};
+let examTimeRemaining = 3600; // 60 minutes countdown
+let timerInterval = null;
+let examFinished = false;
+let startTime = Date.now();
+let generatedDocxBlob = null;
+
+// Initialize on DOM Ready
+window.addEventListener("DOMContentLoaded", () => {
+  renderQuestionPaper();
+  renderNavGrid();
+  initTimer();
+  updateProgress();
+});
+
+// Render Questions to Page
+function renderQuestionPaper() {
+  const container = document.getElementById("questionsContainer");
+  let currentSec = "";
+  let html = "";
+
+  questions.forEach(q => {
+    if (q.secId !== currentSec) {
+      currentSec = q.secId;
+      const secMeta = sectionsMeta.find(s => s.id === currentSec);
+      html += `
+        <div class="section-banner" id="secHeading_${secMeta.id}">
+          <div class="section-title">${secMeta.name}</div>
+          <div class="section-desc">${secMeta.desc}</div>
+        </div>
+      `;
+    }
+
+    if (q.stimulus) {
+      html += q.stimulus;
+    }
+
+    html += `
+      <div class="question-card" id="qCard${q.id}">
+        <div class="q-header">
+          <span class="q-number-title">Question ${q.id}</span>
+          <span class="q-badges">[${q.topic} &bull; Bloom: ${q.bloom}]</span>
+        </div>
+        <div class="q-stem">${q.stem}</div>
+    `;
+
+    if (q.options && q.options.length > 0) {
+      html += `<div class="options-container">`;
+      const letters = ['A', 'B', 'C', 'D'];
+      q.options.forEach((opt, idx) => {
+        const letter = letters[idx];
+        html += `
+          <label class="option-row" id="q${q.id}_opt${letter}">
+            <input type="radio" name="q${q.id}" value="${letter}" onchange="selectOption(${q.id}, '${letter}')">
+            <span class="opt-letter">${letter})</span>
+            <span class="opt-text">${opt}</span>
+          </label>
+        `;
+      });
+      html += `</div>`;
+    } else {
+      // Open fill input
+      html += `
+        <div class="open-fill-box">
+          <label for="q${q.id}Input"><strong>Your Answer:</strong></label>
+          <input type="text" id="q${q.id}Input" class="open-fill-input" placeholder="Type 1 word..." oninput="recordTextAnswer(${q.id}, this.value)" onchange="recordTextAnswer(${q.id}, this.value)">
+        </div>
+      `;
+    }
+
+    html += `</div>`;
+  });
+
+  container.innerHTML = html;
+}
+
+// 60-Minute Countdown Timer
+function initTimer() {
+  const clockEl = document.getElementById("timerDisplay");
+  timerInterval = setInterval(() => {
+    if (examTimeRemaining <= 0) {
+      clearInterval(timerInterval);
+      clockEl.innerText = "00:00";
+      alert("Time has reached 60 minutes! Your assessment is now being submitted automatically.");
+      finalizeAndGradeExam();
+      return;
+    }
+    examTimeRemaining--;
+    const mins = Math.floor(examTimeRemaining / 60);
+    const secs = examTimeRemaining % 60;
+    clockEl.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+
+    if (examTimeRemaining <= 300) { // 5 minutes remaining
+      clockEl.className = "timer-clock timer-danger";
+    } else if (examTimeRemaining <= 900) { // 15 minutes remaining
+      clockEl.className = "timer-clock timer-warning";
+    }
+  }, 1000);
+}
+
+// Question Navigation Grid
+function renderNavGrid() {
+  const container = document.getElementById("navGridContainer");
+  container.innerHTML = "";
+  for (let i = 1; i <= 50; i++) {
+    const cell = document.createElement("div");
+    cell.id = `navCell${i}`;
+    cell.className = "nav-cell";
+    cell.innerText = i;
+    cell.onclick = () => {
+      const targetCard = document.getElementById(`qCard${i}`);
+      if (targetCard) {
+        targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    };
+    container.appendChild(cell);
+  }
+}
+
+function toggleNav() {
+  const nav = document.getElementById("questionNav");
+  nav.style.display = nav.style.display === "block" ? "none" : "block";
+}
+
+// Option & Text Selection Handlers
+function selectOption(qId, val) {
+  if (examFinished) return;
+  userAnswers[qId] = val;
+
+  const card = document.getElementById(`qCard${qId}`);
+  if (card) {
+    const rows = card.querySelectorAll(".option-row");
+    rows.forEach(r => r.classList.remove("selected"));
+
+    const radio = card.querySelector(`input[value="${val}"]`);
+    if (radio) {
+      radio.checked = true;
+      const optRow = radio.closest(".option-row");
+      if (optRow) optRow.classList.add("selected");
+    }
+  }
+
+  updateProgress();
+}
+
+function recordTextAnswer(qId, val) {
+  if (examFinished) return;
+  const cleanVal = (val || "").trim().replace(/^["']|["'\.\,\;\:\!\?]+$/g, '');
+  if (cleanVal.length > 0) {
+    userAnswers[qId] = cleanVal;
+  } else {
+    delete userAnswers[qId];
+  }
+  updateProgress();
+}
+
+function updateProgress() {
+  const answeredCount = Object.keys(userAnswers).length;
+  const pct = Math.round((answeredCount / 50) * 100);
+  document.getElementById("progressSummary").innerText = `${answeredCount} / 50 Answered (${pct}%)`;
+  document.getElementById("progressBar").style.width = `${pct}%`;
+
+  for (let i = 1; i <= 50; i++) {
+    const cell = document.getElementById(`navCell${i}`);
+    if (cell) {
+      if (userAnswers[i] && userAnswers[i].toString().trim() !== "") {
+        cell.classList.add("answered");
+      } else {
+        cell.classList.remove("answered");
+      }
+    }
+  }
+}
+
+// Submission Handler - Permitted at ANY TIME during the 60 minutes
+function handleSubmitClicked() {
+  const answeredCount = Object.keys(userAnswers).length;
+  if (answeredCount < 50) {
+    const confirmMsg = `You have completed ${answeredCount} of 50 questions (${50 - answeredCount} questions currently unanswered).\n\nAre you sure you want to submit your examination now and generate your official Word (.docx) Grading Report?`;
+    if (confirm(confirmMsg)) {
+      finalizeAndGradeExam();
+    }
+  } else {
+    if (confirm("Are you ready to submit your completed examination and generate your official Word (.docx) Grading Report?")) {
+      finalizeAndGradeExam();
+    }
+  }
+}
+
+// ========================================================
+// GRADING ENGINE & PEDAGOGICAL DIAGNOSTIC SYNTHESIS
+// ========================================================
+function finalizeAndGradeExam() {
+  if (examFinished) {
+    showResultsModal();
+    return;
+  }
+  examFinished = true;
+  clearInterval(timerInterval);
+
+  const elapsedSeconds = Math.max(0, 3600 - examTimeRemaining);
+  const elapsedMin = Math.floor(elapsedSeconds / 60);
+  const elapsedSec = elapsedSeconds % 60;
+
+  let totalScore = 0;
+  let sectionAudits = {};
+  sectionsMeta.forEach(sm => {
+    sectionAudits[sm.id] = {
+      meta: sm,
+      correct: 0,
+      total: sm.total,
+      correctItems: [],
+      incorrectItems: [],
+      items: []
+    };
+  });
+
+  let bloomStats = {
+    "Understanding": { total: 3, correct: 0, ksa: "Knowledge (Definitions & Explicit Facts)" },
+    "Applying": { total: 23, correct: 0, ksa: "Skills (Grammar Conventions & Collocations)" },
+    "Analyzing": { total: 18, correct: 0, ksa: "Skills & Knowledge (Inferences, Cohesion, Error ID)" },
+    "Evaluating": { total: 6, correct: 0, ksa: "Attitudes & Critical Perspective (Environmental & Character)" }
+  };
+
+  let itemAuditList = [];
+
+  questions.forEach(q => {
+    const uAns = (userAnswers[q.id] || "").toString().trim();
+    let isCorrect = false;
+
+    if (q.options && q.options.length > 0) {
+      isCorrect = (uAns.toUpperCase() === q.correct.toUpperCase());
+    } else {
+      const acceptable = q.acceptable || [q.correct];
+      const cleanUAns = uAns.toLowerCase().replace(/[^a-z0-9]/g, '');
+      isCorrect = acceptable.some(acc => acc.toLowerCase().replace(/[^a-z0-9]/g, '') === cleanUAns);
+    }
+
+    const itemRecord = {
+      id: q.id,
+      secId: q.secId,
+      secTitle: q.secTitle,
+      topic: q.topic,
+      userAnswer: uAns || "[Unanswered]",
+      correctAnswer: q.correct,
+      isCorrect: isCorrect,
+      bloom: q.bloom,
+      ksa: q.ksa,
+      rationale: q.rationale
+    };
+
+    if (isCorrect) {
+      totalScore++;
+      sectionAudits[q.secId].correct++;
+      sectionAudits[q.secId].correctItems.push(itemRecord);
+      if (bloomStats[q.bloom]) bloomStats[q.bloom].correct++;
+    } else {
+      sectionAudits[q.secId].incorrectItems.push(itemRecord);
+    }
+
+    sectionAudits[q.secId].items.push(itemRecord);
+    itemAuditList.push(itemRecord);
+  });
+
+  const percentage = Math.round((totalScore / 50) * 100);
+  let cefr = "A1 (Emerging / Below Standard)";
+  if (percentage >= 85) cefr = "B1 (Independent Threshold / Distinction)";
+  else if (percentage >= 70) cefr = "A2+ (High Elementary / Merit)";
+  else if (percentage >= 50) cefr = "A2 (Developing / Grade Standard Pass)";
+
+  // Update KPI Cards
+  document.getElementById("kpiScore").innerText = `${totalScore} / 50`;
+  document.getElementById("kpiPercentage").innerText = `${percentage}%`;
+  document.getElementById("kpiCefr").innerText = cefr;
+  document.getElementById("kpiTimeUsed").innerText = `${elapsedMin}m ${elapsedSec}s`;
+
+  // Render Section Summary Table
+  const secTbody = document.getElementById("sectionReportTbody");
+  secTbody.innerHTML = "";
+  Object.keys(sectionAudits).forEach(k => {
+    const s = sectionAudits[k];
+    const pct = Math.round((s.correct / s.total) * 100);
+    let rating = "Needs Focus";
+    if (pct >= 85) rating = "Distinction";
+    else if (pct >= 70) rating = "Merit";
+    else if (pct >= 50) rating = "Pass";
+
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td><strong>${s.meta.name}</strong> (${s.meta.range})</td>
+      <td>${s.total}</td>
+      <td style="font-weight:bold;">${s.correct} / ${s.total}</td>
+      <td style="font-weight:bold;">${pct}%</td>
+      <td><strong>${rating}</strong></td>
+    `;
+    secTbody.appendChild(tr);
+  });
+
+  // Render Detailed Section-by-Section Strengths, Weaknesses, Improvement & Item Analysis in UI
+  renderDetailedSectionAnalysisUI(sectionAudits);
+
+  // Render Bloom Table
+  const bloomTbody = document.getElementById("bloomReportTbody");
+  bloomTbody.innerHTML = "";
+  Object.keys(bloomStats).forEach(key => {
+    const b = bloomStats[key];
+    const pct = Math.round((b.correct / b.total) * 100);
+    let mastery = "Emerging";
+    if (pct >= 80) mastery = "Mastered";
+    else if (pct >= 60) mastery = "Competent";
+
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td><strong>${key}</strong></td>
+      <td>${b.ksa}</td>
+      <td>${b.total}</td>
+      <td style="font-weight:bold;">${b.correct} / ${b.total}</td>
+      <td><strong>${pct}% (${mastery})</strong></td>
+    `;
+    bloomTbody.appendChild(tr);
+  });
+
+  // Render Exhaustive Itemized Audit Table (Q1-Q50)
+  const auditTbody = document.getElementById("itemizedAuditTbody");
+  auditTbody.innerHTML = "";
+  itemAuditList.forEach(item => {
+    const tr = document.createElement("tr");
+    const statusBadge = item.isCorrect 
+      ? '<span style="color:#166534; font-weight:bold;">&#10004; STRENGTH</span>' 
+      : '<span style="color:#991b1b; font-weight:bold;">&#10008; IMPROVEMENT</span>';
+    tr.innerHTML = `
+      <td style="text-align:center; font-weight:bold;">${item.id}</td>
+      <td><strong>${item.topic}</strong><br><span style="font-size:11.5px; color:#4b5563;">${item.bloom}</span></td>
+      <td style="text-align:center; font-weight:bold; color:${item.isCorrect ? '#166534' : '#991b1b'};">${item.userAnswer}</td>
+      <td style="text-align:center; font-weight:bold; color:#0b2545;">${item.correctAnswer}</td>
+      <td style="text-align:center;">${statusBadge}</td>
+      <td style="font-size:13px; line-height:1.5;">${item.rationale}</td>
+    `;
+    auditTbody.appendChild(tr);
+  });
+
+  // Open Results Modal
+  showResultsModal();
+
+  // Trigger Automatic Download of Word Document (.docx)
+  generateAndDownloadDocx(totalScore, percentage, cefr, elapsedMin, elapsedSec, sectionAudits, bloomStats, itemAuditList);
+}
+
+// Generate Section-by-Section Strengths, Weaknesses, Improvement & Item-Wise Analysis in UI
+function renderDetailedSectionAnalysisUI(sectionAudits) {
+  const container = document.getElementById("sectionDetailedAuditContainer");
+  let html = "";
+
+  Object.keys(sectionAudits).forEach(k => {
+    const sec = sectionAudits[k];
+    const pct = Math.round((sec.correct / sec.total) * 100);
+
+    // Dynamic Strengths
+    let strengthsText = "";
+    if (sec.correctItems.length === sec.total) {
+      strengthsText = `Flawless mastery across all ${sec.total} items in this domain. Complete precision in: ${sec.correctItems.map(i => i.topic).join(', ')}.`;
+    } else if (sec.correctItems.length > 0) {
+      strengthsText = `Demonstrated accurate competence in: ${sec.correctItems.map(i => `<strong>${i.topic}</strong> (Q${i.id})`).join(', ')}.`;
+    } else {
+      strengthsText = `Foundational concepts in this domain require immediate structured introduction and review.`;
+    }
+
+    // Dynamic Weaknesses
+    let weaknessesText = "";
+    if (sec.incorrectItems.length === 0) {
+      weaknessesText = `No errors or structural vulnerabilities recorded in this section.`;
+    } else {
+      weaknessesText = `Identified difficulty in: ${sec.incorrectItems.map(i => `<strong>${i.topic}</strong> (Q${i.id}: selected <em>"${i.userAnswer}"</em>, expected <em>"${i.correctAnswer}"</em>)`).join('; ')}.`;
+    }
+
+    // Specific Recommended Improvement Interventions
+    let remediationText = getSectionImprovementGuidance(sec.meta.id);
+
+    // Question Item-Wise Table for this Section
+    let itemRowsHtml = "";
+    sec.items.forEach(it => {
+      const statusHtml = it.isCorrect 
+        ? '<span style="color:#166534; font-weight:bold;">&#10004; STRENGTH</span>'
+        : '<span style="color:#991b1b; font-weight:bold;">&#10008; IMPROVE</span>';
+      itemRowsHtml += `
+        <tr>
+          <td style="text-align:center; font-weight:bold;">Q${it.id}</td>
+          <td><strong>${it.topic}</strong><br><span style="font-size:11px; color:#64748b;">${it.bloom}</span></td>
+          <td style="text-align:center; font-weight:bold; color:${it.isCorrect ? '#166534' : '#991b1b'};">${it.userAnswer}</td>
+          <td style="text-align:center; font-weight:bold; color:#0b2545;">${it.correctAnswer}</td>
+          <td style="text-align:center;">${statusHtml}</td>
+          <td style="font-size:12.5px;">${it.rationale}</td>
+        </tr>
+      `;
+    });
+
+    html += `
+      <div class="section-audit-card">
+        <div class="section-audit-header">
+          <span class="section-audit-title">${sec.meta.name} (${sec.meta.range})</span>
+          <span class="section-audit-score">Score: ${sec.correct}/${sec.total} (${pct}%)</span>
+        </div>
+        <div style="font-size:14px; margin-bottom:8px;">
+          <span style="color:#166534; font-weight:bold;">&bull; Section Strengths:</span> ${strengthsText}
+        </div>
+        <div style="font-size:14px; margin-bottom:8px;">
+          <span style="color:#991b1b; font-weight:bold;">&bull; Identified Weaknesses &amp; Errors:</span> ${weaknessesText}
+        </div>
+        <div style="font-size:14px; margin-bottom:14px;">
+          <span style="color:#1e40af; font-weight:bold;">&bull; Targeted Pedagogical Improvement:</span> ${remediationText}
+        </div>
+        
+        <div style="margin-top:12px;">
+          <strong style="font-size:13.5px; color:#0b2545;">Question Item-by-Item Breakdown (${sec.meta.range}):</strong>
+          <table class="report-table" style="font-size:12.5px; margin-top:6px;">
+            <thead>
+              <tr>
+                <th style="width:7%;">Item</th>
+                <th style="width:25%;">Topic / Skill</th>
+                <th style="width:13%;">Given</th>
+                <th style="width:11%;">Key</th>
+                <th style="width:14%;">Diagnostic</th>
+                <th style="width:30%;">Pedagogical Rationale</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${itemRowsHtml}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+  });
+
+  container.innerHTML = html;
+}
+
+function getSectionImprovementGuidance(secId) {
+  switch (secId) {
+    case "s1":
+      return "Practice scanning authentic short notices, digital chat logs, and safety instructions. Emphasize distinguishing stated facts from implicit assumptions and verifying exact conditional requirements.";
+    case "s2":
+      return "Consolidate complex grammatical structures: interrupted past continuous syntax (while + past continuous, past simple), first conditional rules (if + present simple, will + base), possessive relative pronoun 'whose', and non-count quantifiers ('a little').";
+    case "s3":
+      return "Expand contextual vocabulary using British Council LearnEnglish Kids Word Games. Focus on standard verb-noun collocations ('make a decision'), phrasal verbs of resource depletion ('run out of'), and derivational prefixation ('un-').";
+    case "s4":
+      return "Strengthen dual-track expository comprehension: factual detail retrieval paired with technical diagram synthesis (evaporation-condensation purifiers, architectural windbreaks). Practice summarizing primary author purpose.";
+    case "s5":
+      return "Institute a structured 5-point proofreading protocol: (1) singular collective noun concord ('flock was flying'); (2) narrative tense consistency ('explained... demonstrated'); (3) eliminate double comparatives ('more quieter'); (4) parallel infinitive series ('to pitch, purify, and navigate'); (5) irregular past participle forms ('had fallen').";
+    case "s6":
+      return "Develop paragraph-level cloze cohesion strategies: map discourse connectives ('In fact'), dependent adjective/verb prepositions ('capable of', 'responsible for'), and singular quantifier agreement ('every farmer and gardener').";
+    case "s7":
+      return "Reinforce open productive recall of functional structural markers: temporal anchor 'since', mandatory verb-preposition bond 'succeeded in', concessive linker 'even though', negative correlative pair 'neither... nor', and phrasal particle 'switch off'.";
+    default:
+      return "Continue comprehensive language practice across British Council LearnEnglish Kids materials.";
+  }
+}
+
+function showResultsModal() {
+  document.getElementById("resultsModal").style.display = "block";
+}
+function closeResultsModal() {
+  document.getElementById("resultsModal").style.display = "none";
+}
+
+// ========================================================
+// PURE JAVASCRIPT OPENXML WORD (.DOCX) AUTOMATION ENGINE
+// ========================================================
+const CRC_TABLE = (() => {
+  let table = new Uint32Array(256);
+  for (let i = 0; i < 256; i++) {
+    let c = i;
+    for (let k = 0; k < 8; k++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
+    table[i] = c;
+  }
+  return table;
+})();
+
+function crc32(buf) {
+  let crc = 0 ^ (-1);
+  for (let i = 0; i < buf.length; i++) crc = (crc >>> 8) ^ CRC_TABLE[(crc ^ buf[i]) & 0xFF];
+  return (crc ^ (-1)) >>> 0;
+}
+
+function buildZipBlob(files) {
+  let localHeaders = [];
+  let centralHeaders = [];
+  let offset = 0;
+
+  for (const f of files) {
+    const nameBytes = new TextEncoder().encode(f.name);
+    const dataBytes = (typeof f.data === "string") ? new TextEncoder().encode(f.data) : f.data;
+    const crc = crc32(dataBytes);
+    const size = dataBytes.length;
+
+    // Local header: 30 bytes + name length
+    const lh = new Uint8Array(30 + nameBytes.length);
+    const lhView = new DataView(lh.buffer);
+    lhView.setUint32(0, 0x04034b50, true);
+    lhView.setUint16(4, 20, true);     // version needed to extract
+    lhView.setUint16(6, 0, true);      // bit flag
+    lhView.setUint16(8, 0, true);      // compression method (0 = store)
+    lhView.setUint16(10, 0x0000, true); // mod time: 00:00:00
+    lhView.setUint16(12, 0x5C21, true); // mod date: 2026-01-01 (DOS date format)
+    lhView.setUint32(14, crc, true);
+    lhView.setUint32(18, size, true);  // compressed size
+    lhView.setUint32(22, size, true);  // uncompressed size
+    lhView.setUint16(26, nameBytes.length, true);
+    lhView.setUint16(28, 0, true);     // extra length
+    lh.set(nameBytes, 30);
+
+    // Central directory header: 46 bytes + name length
+    const cd = new Uint8Array(46 + nameBytes.length);
+    const cdView = new DataView(cd.buffer);
+    cdView.setUint32(0, 0x02014b50, true);
+    cdView.setUint16(4, 20, true);     // version made by
+    cdView.setUint16(6, 20, true);     // version needed
+    cdView.setUint16(8, 0, true);      // bit flag
+    cdView.setUint16(10, 0, true);     // compression method
+    cdView.setUint16(12, 0x0000, true); // mod time
+    cdView.setUint16(14, 0x5C21, true); // mod date
+    cdView.setUint32(16, crc, true);
+    cdView.setUint32(20, size, true);  // compressed size
+    cdView.setUint32(24, size, true);  // uncompressed size
+    cdView.setUint16(28, nameBytes.length, true);
+    cdView.setUint16(30, 0, true);     // extra length
+    cdView.setUint16(32, 0, true);     // comment length
+    cdView.setUint16(34, 0, true);     // disk start
+    cdView.setUint16(36, 0, true);     // internal attributes
+    cdView.setUint32(38, 0, true);     // external attributes
+    cdView.setUint32(42, offset, true); // relative offset of local header
+    cd.set(nameBytes, 46);
+
+    localHeaders.push(lh, dataBytes);
+    centralHeaders.push(cd);
+    offset += lh.length + dataBytes.length;
+  }
+
+  const cdOffset = offset;
+  let cdSize = 0;
+  centralHeaders.forEach(c => cdSize += c.length);
+
+  const eocd = new Uint8Array(22);
+  const eocdView = new DataView(eocd.buffer);
+  eocdView.setUint32(0, 0x06054b50, true);
+  eocdView.setUint16(4, 0, true);
+  eocdView.setUint16(6, 0, true);
+  eocdView.setUint16(8, files.length, true);
+  eocdView.setUint16(10, files.length, true);
+  eocdView.setUint32(12, cdSize, true);
+  eocdView.setUint32(16, cdOffset, true);
+  eocdView.setUint16(20, 0, true);
+
+  return new Blob([...localHeaders, ...centralHeaders, eocd], {
+    type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  });
+}
+
+function generateAndDownloadDocx(totalScore, percentage, cefr, elMin, elSec, secAudits, bloomStats, itemAuditList) {
+  const candidateName = document.getElementById("candidateName").value || "Student Candidate";
+  const candidateId = document.getElementById("candidateId").value || "BC-G5-2026-081";
+  const examCenter = document.getElementById("examCenter").value || "International Academy";
+  const examDate = document.getElementById("examDate").value || "11 October 2026";
+
+  const esc = (str) => {
+    if (str === null || str === undefined) return "";
+    return str.toString()
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&apos;");
+  };
+
+  // Section Summary Table Rows
+  let secSummaryRowsXml = "";
+  Object.keys(secAudits).forEach(k => {
+    const s = secAudits[k];
+    const pct = Math.round((s.correct / s.total) * 100);
+    let rating = "Needs Focus";
+    if (pct >= 85) rating = "Distinction";
+    else if (pct >= 70) rating = "Merit";
+    else if (pct >= 50) rating = "Pass";
+
+    secSummaryRowsXml += `
+      <w:tr>
+        <w:tc><w:tcPr><w:tcW w:w="2800" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">${esc(s.meta.name)}</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="1100" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">${esc(s.meta.range)}</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="1100" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">${s.total}</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="1500" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">${s.correct} / ${s.total}</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="1500" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">${pct}%</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="2000" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">${rating}</w:t></w:r></w:p></w:tc>
+      </w:tr>
+    `;
+  });
+
+  // Section-by-Section Strengths, Weaknesses, Improvement & Item-by-Item Breakdown XML
+  let secDetailedNarrativeXml = "";
+  Object.keys(secAudits).forEach((k, idx) => {
+    const sec = secAudits[k];
+    const pct = Math.round((sec.correct / sec.total) * 100);
+
+    let strengths = "";
+    if (sec.correctItems.length === sec.total) {
+      strengths = `Flawless execution across all ${sec.total} items. Complete mastery demonstrated in: ${sec.correctItems.map(i => i.topic).join(', ')}.`;
+    } else if (sec.correctItems.length > 0) {
+      strengths = `Demonstrated solid proficiency in: ${sec.correctItems.map(i => `${i.topic} (Q${i.id})`).join(', ')}.`;
+    } else {
+      strengths = `Foundational competency in this area requires structured introduction and review.`;
+    }
+
+    let weaknesses = "";
+    if (sec.incorrectItems.length === 0) {
+      weaknesses = `No structural or conceptual errors observed in this section.`;
+    } else {
+      weaknesses = `Identified difficulty in: ${sec.incorrectItems.map(i => `${i.topic} (Q${i.id}: candidate selected '${i.userAnswer}', correct syllabus key was '${i.correctAnswer}')`).join('; ')}.`;
+    }
+
+    let remediation = getSectionImprovementGuidance(sec.meta.id);
+
+    // Section-specific question item table rows
+    let secItemTableRows = "";
+    sec.items.forEach(it => {
+      const resText = it.isCorrect ? "STRENGTH" : "IMPROVEMENT";
+      const resColor = it.isCorrect ? "166534" : "991B1B";
+
+      secItemTableRows += `
+        <w:tr>
+          <w:tc><w:tcPr><w:tcW w:w="700" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="30" w:after="30"/><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:sz w:val="18"/></w:rPr><w:t xml:space="preserve">Q${it.id}</w:t></w:r></w:p></w:tc>
+          <w:tc><w:tcPr><w:tcW w:w="2400" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="30" w:after="30"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:sz w:val="18"/></w:rPr><w:t xml:space="preserve">${esc(it.topic)}</w:t></w:r><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:color w:val="555555"/><w:sz w:val="16"/></w:rPr><w:t xml:space="preserve"> [${esc(it.bloom)}]</w:t></w:r></w:p></w:tc>
+          <w:tc><w:tcPr><w:tcW w:w="1200" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="30" w:after="30"/><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="${resColor}"/><w:sz w:val="18"/></w:rPr><w:t xml:space="preserve">${esc(it.userAnswer)}</w:t></w:r></w:p></w:tc>
+          <w:tc><w:tcPr><w:tcW w:w="1100" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="30" w:after="30"/><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="0B2545"/><w:sz w:val="18"/></w:rPr><w:t xml:space="preserve">${esc(it.correctAnswer)}</w:t></w:r></w:p></w:tc>
+          <w:tc><w:tcPr><w:tcW w:w="1400" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="30" w:after="30"/><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="${resColor}"/><w:sz w:val="17"/></w:rPr><w:t xml:space="preserve">${resText}</w:t></w:r></w:p></w:tc>
+          <w:tc><w:tcPr><w:tcW w:w="3200" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="30" w:after="30"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:sz w:val="18"/></w:rPr><w:t xml:space="preserve">${esc(it.rationale)}</w:t></w:r></w:p></w:tc>
+        </w:tr>
+      `;
+    });
+
+    secDetailedNarrativeXml += `
+      <w:p><w:pPr><w:spacing w:before="240" w:after="60"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="0B2545"/><w:sz w:val="24"/></w:rPr><w:t xml:space="preserve">2.${idx + 1} ${esc(sec.meta.name)} (${esc(sec.meta.range)}) — Score: ${sec.correct}/${sec.total} (${pct}%)</w:t></w:r></w:p>
+      
+      <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="166534"/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">• Section Strengths: </w:t></w:r><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">${esc(strengths)}</w:t></w:r></w:p>
+      
+      <w:p><w:pPr><w:spacing w:after="40"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="991B1B"/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">• Identified Weaknesses &amp; Errors: </w:t></w:r><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">${esc(weaknesses)}</w:t></w:r></w:p>
+      
+      <w:p><w:pPr><w:spacing w:after="80"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="1E40AF"/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">• Targeted Improvement &amp; Interventions: </w:t></w:r><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">${esc(remediation)}</w:t></w:r></w:p>
+      
+      <w:p><w:pPr><w:spacing w:before="60" w:after="40"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="0B2545"/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">Item-Wise Question Breakdown for ${esc(sec.meta.name)}:</w:t></w:r></w:p>
+      
+      <w:tbl>
+        <w:tblPr>
+          <w:tblW w:w="5000" w:type="pct"/>
+          <w:tblBorders>
+            <w:top w:val="single" w:sz="6" w:color="0B2545"/>
+            <w:left w:val="none"/>
+            <w:bottom w:val="single" w:sz="6" w:color="0B2545"/>
+            <w:right w:val="none"/>
+            <w:insideH w:val="single" w:sz="4" w:color="E2E8F0"/>
+            <w:insideV w:val="none"/>
+          </w:tblBorders>
+        </w:tblPr>
+        <w:tblGrid>
+          <w:gridCol w:w="700"/><w:gridCol w:w="2400"/><w:gridCol w:w="1200"/><w:gridCol w:w="1100"/><w:gridCol w:w="1400"/><w:gridCol w:w="3200"/>
+        </w:tblGrid>
+        <w:tr>
+          <w:tc><w:tcPr><w:tcW w:w="700" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="0B2545"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="18"/></w:rPr><w:t xml:space="preserve">Item</w:t></w:r></w:p></w:tc>
+          <w:tc><w:tcPr><w:tcW w:w="2400" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="0B2545"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="18"/></w:rPr><w:t xml:space="preserve">Topic / Skill</w:t></w:r></w:p></w:tc>
+          <w:tc><w:tcPr><w:tcW w:w="1200" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="0B2545"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="18"/></w:rPr><w:t xml:space="preserve">Given</w:t></w:r></w:p></w:tc>
+          <w:tc><w:tcPr><w:tcW w:w="1100" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="0B2545"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="18"/></w:rPr><w:t xml:space="preserve">Key</w:t></w:r></w:p></w:tc>
+          <w:tc><w:tcPr><w:tcW w:w="1400" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="0B2545"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="18"/></w:rPr><w:t xml:space="preserve">Diagnostic</w:t></w:r></w:p></w:tc>
+          <w:tc><w:tcPr><w:tcW w:w="3200" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="0B2545"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="18"/></w:rPr><w:t xml:space="preserve">Pedagogical Rationale</w:t></w:r></w:p></w:tc>
+        </w:tr>
+        ${secItemTableRows}
+      </w:tbl>
+      <w:p><w:pPr><w:spacing w:after="160"/></w:pPr></w:p>
+    `;
+  });
+
+  // Bloom Table Rows
+  let bloomRowsXml = "";
+  Object.keys(bloomStats).forEach(key => {
+    const b = bloomStats[key];
+    const pct = Math.round((b.correct / b.total) * 100);
+    let mastery = "Emerging";
+    if (pct >= 80) mastery = "Mastered";
+    else if (pct >= 60) mastery = "Competent";
+
+    bloomRowsXml += `
+      <w:tr>
+        <w:tc><w:tcPr><w:tcW w:w="2800" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">${esc(key)}</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="3200" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">${esc(b.ksa)}</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="1200" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">${b.total}</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="1400" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">${b.correct} / ${b.total}</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="1400" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">${pct}% (${mastery})</w:t></w:r></w:p></w:tc>
+      </w:tr>
+    `;
+  });
+
+  // Master Question Item Audit Table Rows (Q1-Q50)
+  let itemAuditRowsXml = "";
+  itemAuditList.forEach(item => {
+    const resText = item.isCorrect ? "STRENGTH" : "IMPROVEMENT";
+    const resColor = item.isCorrect ? "166534" : "991B1B";
+
+    itemAuditRowsXml += `
+      <w:tr>
+        <w:tc><w:tcPr><w:tcW w:w="800" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="30" w:after="30"/><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:sz w:val="18"/></w:rPr><w:t xml:space="preserve">Q${item.id}</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="2400" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="30" w:after="30"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:sz w:val="18"/></w:rPr><w:t xml:space="preserve">${esc(item.topic)}</w:t></w:r><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:color w:val="555555"/><w:sz w:val="16"/></w:rPr><w:t xml:space="preserve"> [${esc(item.bloom)}]</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="1200" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="30" w:after="30"/><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="${resColor}"/><w:sz w:val="18"/></w:rPr><w:t xml:space="preserve">${esc(item.userAnswer)}</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="1200" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="30" w:after="30"/><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="0B2545"/><w:sz w:val="18"/></w:rPr><w:t xml:space="preserve">${esc(item.correctAnswer)}</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="1400" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="30" w:after="30"/><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="${resColor}"/><w:sz w:val="18"/></w:rPr><w:t xml:space="preserve">${resText}</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="3000" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="30" w:after="30"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:sz w:val="18"/></w:rPr><w:t xml:space="preserve">${esc(item.rationale)}</w:t></w:r></w:p></w:tc>
+      </w:tr>
+    `;
+  });
+
+  const documentXml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <!-- Document Header -->
+    <w:p>
+      <w:pPr><w:spacing w:before="0" w:after="100"/><w:jc w:val="center"/></w:pPr>
+      <w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="0B2545"/><w:sz w:val="40"/></w:rPr><w:t xml:space="preserve">Grade 5 English Proficiency Diagnostic Assessment</w:t></w:r>
+    </w:p>
+    <w:p>
+      <w:pPr><w:spacing w:before="0" w:after="240"/><w:jc w:val="center"/></w:pPr>
+      <w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:i/><w:color w:val="555555"/><w:sz w:val="22"/></w:rPr><w:t xml:space="preserve">Official Diagnostic Grading &amp; Performance Evaluation Report • British Council LearnEnglish Kids Curriculum Aligned</w:t></w:r>
+    </w:p>
+
+    <!-- Candidate Metadata Table -->
+    <w:tbl>
+      <w:tblPr>
+        <w:tblW w:w="5000" w:type="pct"/>
+        <w:tblBorders>
+          <w:top w:val="single" w:sz="6" w:color="0B2545"/>
+          <w:left w:val="none"/>
+          <w:bottom w:val="single" w:sz="6" w:color="0B2545"/>
+          <w:right w:val="none"/>
+          <w:insideH w:val="single" w:sz="4" w:color="E2E8F0"/>
+          <w:insideV w:val="none"/>
+        </w:tblBorders>
+      </w:tblPr>
+      <w:tblGrid>
+        <w:gridCol w:w="2200"/><w:gridCol w:w="2800"/><w:gridCol w:w="2200"/><w:gridCol w:w="2800"/>
+      </w:tblGrid>
+      <w:tr>
+        <w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">Candidate Name:</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="2800" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">${esc(candidateName)}</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">Candidate ID:</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="2800" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">${esc(candidateId)}</w:t></w:r></w:p></w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">School / Center:</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="2800" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">${esc(examCenter)}</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">Date of Test:</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="2800" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">${esc(examDate)}</w:t></w:r></w:p></w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">Overall Score:</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="2800" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="0B2545"/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">${totalScore} / 50 (${percentage}%)</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">CEFR Placement:</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="2800" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="B38022"/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">${esc(cefr)}</w:t></w:r></w:p></w:tc>
+      </w:tr>
+      <w:tr>
+        <w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">Time Elapsed:</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="2800" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">${elMin} min ${elSec} sec (Allocated: 60 min)</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">Test Status:</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="2800" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">Certified &amp; Verified</w:t></w:r></w:p></w:tc>
+      </w:tr>
+    </w:tbl>
+
+    <!-- 1. Section Summary Table -->
+    <w:p><w:pPr><w:spacing w:before="260" w:after="80"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="0B2545"/><w:sz w:val="28"/></w:rPr><w:t xml:space="preserve">1. Section-by-Section Performance Audit Summary</w:t></w:r></w:p>
+    <w:tbl>
+      <w:tblPr>
+        <w:tblW w:w="5000" w:type="pct"/>
+        <w:tblBorders>
+          <w:top w:val="single" w:sz="8" w:color="0B2545"/>
+          <w:left w:val="none"/>
+          <w:bottom w:val="single" w:sz="8" w:color="0B2545"/>
+          <w:right w:val="none"/>
+          <w:insideH w:val="single" w:sz="4" w:color="CCCCCC"/>
+          <w:insideV w:val="none"/>
+        </w:tblBorders>
+      </w:tblPr>
+      <w:tblGrid>
+        <w:gridCol w:w="2800"/><w:gridCol w:w="1100"/><w:gridCol w:w="1100"/><w:gridCol w:w="1500"/><w:gridCol w:w="1500"/><w:gridCol w:w="2000"/>
+      </w:tblGrid>
+      <w:tr>
+        <w:tc><w:tcPr><w:tcW w:w="2800" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="0B2545"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">Section Name</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="1100" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="0B2545"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">Range</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="1100" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="0B2545"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">Items</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="1500" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="0B2545"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">Score</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="1500" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="0B2545"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">Accuracy</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="2000" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="0B2545"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">Rating</w:t></w:r></w:p></w:tc>
+      </w:tr>
+      ${secSummaryRowsXml}
+    </w:tbl>
+
+    <!-- 2. Detailed Section-by-Section Strengths, Weaknesses, Areas for Improvement & Question Item Analysis -->
+    <w:p><w:pPr><w:spacing w:before="300" w:after="80"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="0B2545"/><w:sz w:val="28"/></w:rPr><w:t xml:space="preserve">2. Detailed Section-by-Section Strengths, Weaknesses &amp; Areas for Improvement</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="100"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:i/><w:color w:val="555555"/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">Itemized qualitative diagnostic analysis for each section, detailing exact competencies mastered, errors identified, pedagogical interventions, and question item-wise breakdown.</w:t></w:r></w:p>
+    ${secDetailedNarrativeXml}
+
+    <!-- 3. Cognitive Domain (Bloom's Revised) & K-S-A Matrix -->
+    <w:p><w:pPr><w:spacing w:before="300" w:after="80"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="0B2545"/><w:sz w:val="28"/></w:rPr><w:t xml:space="preserve">3. Cognitive Domain (Bloom's Revised) &amp; K-S-A Matrix</w:t></w:r></w:p>
+    <w:tbl>
+      <w:tblPr>
+        <w:tblW w:w="5000" w:type="pct"/>
+        <w:tblBorders>
+          <w:top w:val="single" w:sz="8" w:color="0B2545"/>
+          <w:left w:val="none"/>
+          <w:bottom w:val="single" w:sz="8" w:color="0B2545"/>
+          <w:right w:val="none"/>
+          <w:insideH w:val="single" w:sz="4" w:color="CCCCCC"/>
+          <w:insideV w:val="none"/>
+        </w:tblBorders>
+      </w:tblPr>
+      <w:tblGrid>
+        <w:gridCol w:w="2800"/><w:gridCol w:w="3200"/><w:gridCol w:w="1200"/><w:gridCol w:w="1400"/><w:gridCol w:w="1400"/>
+      </w:tblGrid>
+      <w:tr>
+        <w:tc><w:tcPr><w:tcW w:w="2800" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="0B2545"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">Cognitive Skill</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="3200" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="0B2545"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">K-S-A Domain</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="1200" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="0B2545"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">Items</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="1400" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="0B2545"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">Score</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="1400" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="0B2545"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">Mastery</w:t></w:r></w:p></w:tc>
+      </w:tr>
+      ${bloomRowsXml}
+    </w:tbl>
+
+    <!-- 4. Exhaustive Question Item-by-Item Master Audit (Q1–Q50) -->
+    <w:p><w:pPr><w:spacing w:before="300" w:after="80"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="0B2545"/><w:sz w:val="28"/></w:rPr><w:t xml:space="preserve">4. Exhaustive Question-by-Question Master Audit (Q1–Q50)</w:t></w:r></w:p>
+    <w:p><w:pPr><w:spacing w:after="80"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:i/><w:color w:val="555555"/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">Complete master inventory comparing candidate response against syllabus key and pedagogical rationale.</w:t></w:r></w:p>
+    <w:tbl>
+      <w:tblPr>
+        <w:tblW w:w="5000" w:type="pct"/>
+        <w:tblBorders>
+          <w:top w:val="single" w:sz="8" w:color="0B2545"/>
+          <w:left w:val="none"/>
+          <w:bottom w:val="single" w:sz="8" w:color="0B2545"/>
+          <w:right w:val="none"/>
+          <w:insideH w:val="single" w:sz="4" w:color="E2E8F0"/>
+          <w:insideV w:val="none"/>
+        </w:tblBorders>
+      </w:tblPr>
+      <w:tblGrid>
+        <w:gridCol w:w="800"/><w:gridCol w:w="2400"/><w:gridCol w:w="1200"/><w:gridCol w:w="1200"/><w:gridCol w:w="1400"/><w:gridCol w:w="3000"/>
+      </w:tblGrid>
+      <w:tr>
+        <w:tc><w:tcPr><w:tcW w:w="800" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="0B2545"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="18"/></w:rPr><w:t xml:space="preserve">Q#</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="2400" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="0B2545"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="18"/></w:rPr><w:t xml:space="preserve">Domain &amp; Skill</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="1200" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="0B2545"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="18"/></w:rPr><w:t xml:space="preserve">Student</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="1200" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="0B2545"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="18"/></w:rPr><w:t xml:space="preserve">Key</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="1400" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="0B2545"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="18"/></w:rPr><w:t xml:space="preserve">Result</w:t></w:r></w:p></w:tc>
+        <w:tc><w:tcPr><w:tcW w:w="3000" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="0B2545"/></w:tcPr><w:p><w:pPr><w:spacing w:before="40" w:after="40"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="18"/></w:rPr><w:t xml:space="preserve">Pedagogical Rationale</w:t></w:r></w:p></w:tc>
+      </w:tr>
+      ${itemAuditRowsXml}
+    </w:tbl>
+
+    <!-- Examiner Verification & Sign-off Block -->
+    <w:p><w:pPr><w:spacing w:before="340" w:after="140"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:color w:val="0B2545"/><w:sz w:val="24"/></w:rPr><w:t xml:space="preserve">5. Official Examiner Verification &amp; Certification Sign-Off</w:t></w:r></w:p>
+    <w:tbl>
+      <w:tblPr>
+        <w:tblW w:w="5000" w:type="pct"/>
+        <w:tblBorders>
+          <w:top w:val="none"/><w:left w:val="none"/><w:bottom w:val="none"/><w:right w:val="none"/>
+          <w:insideH w:val="none"/><w:insideV w:val="none"/>
+        </w:tblBorders>
+      </w:tblPr>
+      <w:tblGrid><w:gridCol w:w="5000"/><w:gridCol w:w="5000"/></w:tblGrid>
+      <w:tr>
+        <w:tc>
+          <w:tcPr><w:tcW w:w="5000" w:type="dxa"/></w:tcPr>
+          <w:p><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">_____________________________________________</w:t></w:r></w:p>
+          <w:p><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">Lead Examiner: Diagnostic Evaluation Board</w:t></w:r></w:p>
+          <w:p><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:i/><w:color w:val="555555"/><w:sz w:val="18"/></w:rPr><w:t xml:space="preserve">British Council LearnEnglish Curriculum Authority</w:t></w:r></w:p>
+        </w:tc>
+        <w:tc>
+          <w:tcPr><w:tcW w:w="5000" w:type="dxa"/></w:tcPr>
+          <w:p><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">_____________________________________________</w:t></w:r></w:p>
+          <w:p><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:b/><w:sz w:val="20"/></w:rPr><w:t xml:space="preserve">Head of Primary Academic Assessment</w:t></w:r></w:p>
+          <w:p><w:r><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/><w:i/><w:color w:val="555555"/><w:sz w:val="18"/></w:rPr><w:t xml:space="preserve">Official Seal &amp; Validation Date: ${esc(examDate)}</w:t></w:r></w:p>
+        </w:tc>
+      </w:tr>
+    </w:tbl>
+
+    <!-- Document Section Properties -->
+    <w:sectPr>
+      <w:pgSz w:w="11906" w:h="16838"/>
+      <w:pgMar w:top="1134" w:right="1134" w:bottom="1134" w:left="1134" w:header="708" w:footer="708" w:gutter="0"/>
+      <w:cols w:space="708"/>
+      <w:docGrid w:linePitch="360"/>
+    </w:sectPr>
+  </w:body>
+</w:document>`;
+
+  const files = [
+    {
+      name: "[Content_Types].xml",
+      data: `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
+  <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
+  <Default Extension="xml" ContentType="application/xml"/>
+  <Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>
+  <Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/>
+</Types>`
+    },
+    {
+      name: "_rels/.rels",
+      data: `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+  <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/>
+</Relationships>`
+    },
+    {
+      name: "word/_rels/document.xml.rels",
+      data: `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+  <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>
+</Relationships>`
+    },
+    {
+      name: "word/styles.xml",
+      data: `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:docDefaults>
+    <w:rPrDefault>
+      <w:rPr>
+        <w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/>
+        <w:sz w:val="22"/>
+        <w:szCs w:val="22"/>
+        <w:lang w:val="en-GB"/>
+      </w:rPr>
+    </w:rPrDefault>
+    <w:pPrDefault>
+      <w:pPr>
+        <w:spacing w:after="120" w:line="276" w:lineRule="auto"/>
+      </w:pPr>
+    </w:pPrDefault>
+  </w:docDefaults>
+  <w:style w:type="paragraph" w:default="1" w:styleId="Normal">
+    <w:name w:val="Normal"/>
+    <w:qFormat/>
+  </w:style>
+</w:styles>`
+    },
+    {
+      name: "word/document.xml",
+      data: documentXml
+    }
+  ];
+
+  generatedDocxBlob = buildZipBlob(files);
+
+  // Automatically trigger download
+  downloadDocxReport();
+}
+
+function downloadDocxReport() {
+  if (!generatedDocxBlob) {
+    alert("Please submit your examination first to generate your report.");
+    return;
+  }
+  const candidateName = (document.getElementById("candidateName").value || "Student").replace(/[^a-zA-Z0-9]/g, "_");
+  const filename = `Grade_5_English_Grading_Report_${candidateName}.docx`;
+  const url = URL.createObjectURL(generatedDocxBlob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+</script>
+</body>
+</html>
